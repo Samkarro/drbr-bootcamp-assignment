@@ -1,4 +1,14 @@
+"use client";
+
+import { useState } from "react";
+
 export default function Register() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  // Don't forget to add image state management
+
   return (
     <div className="auth-page-container">
       <h1>Register</h1>
@@ -7,27 +17,27 @@ export default function Register() {
       </h2>
       <form>
         <input
+          onChange={(e) => setUsername(e.target.value)}
           className="username"
-          //   value="username"
           placeholder="Username"
           required
         ></input>
         <input
+          onChange={(e) => setEmail(e.target.value)}
           className="email"
-          //   value="email"
           placeholder="Email"
           required
         ></input>
         <input
+          onChange={(e) => setPassword(e.target.value)}
           className="password"
-          //   value="password"
           placeholder="Password"
           type="password"
           required
         ></input>
         <input
+          onChange={(e) => setPasswordConfirmation(e.target.value)}
           className="password-confirmation"
-          //   value="password-confirmation"
           placeholder="Confirm password"
           type="password"
           required

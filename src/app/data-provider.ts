@@ -1,5 +1,7 @@
 export const dataProvider = {
-  login: async (email: string, password: string) => {},
+  login: async (email: string, password: string) => {
+    return "test";
+  },
   register: async (
     avatar: string | BinaryType,
     email: string,
