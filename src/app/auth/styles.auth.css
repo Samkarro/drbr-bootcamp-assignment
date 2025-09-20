@@ -1,0 +1,34 @@
+.auth-page-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+}
+
+.auth-text-input {
+  width: 544px;
+  height: 42px;
+  padding: 8px 12px 8px 12px;
+  margin: 10px 0px 10px 0px;
+  border-radius: 8px;
+  border: 2px solid var(--redseam-mid-gray);
+  font-family: Poppins, Helvetica, sans-serif;
+}
+.auth-text-input::placeholder {
+  color: var(--redseam-silver-blue);
+}
+
+.auth-text-input:focus {
+  border: 1px solid var(--redseam-navy-blue);
+  outline: none;
+}
+
+.auth-text-input:focus::placeholder {
+  color: transparent;
+}
+
+.auth-text-input::placeholder::-webkit-input-placeholder:after {
+  content: " *";
+  color: var(--redseam-orange);
+}
