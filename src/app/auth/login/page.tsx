@@ -3,6 +3,7 @@
 import { dataProvider } from "@/app/data-provider";
 import { useState } from "react";
 import "../styles.auth.css";
+import AuthHeader from "../../../../components/header-auth";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ export default function Login() {
 
   return (
     <div className="auth-page-container">
+      <AuthHeader></AuthHeader>
       <div className="auth-page-form-container">
         <h1 style={{ width: "544px" }}>Log in</h1>
         <input
