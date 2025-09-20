@@ -1,7 +1,9 @@
+import { unauthorized } from "next/navigation";
+
 export const dataProvider = {
   login: async (email: string, password: string) => {
     const formData = JSON.stringify({ email, password });
-    console.log(formData);
+
     const response = await fetch(
       "https://api.redseam.redberryinternship.ge/api/login",
       {
@@ -17,11 +19,19 @@ export const dataProvider = {
         return res.json();
       })
       .then(function (data) {
-        localStorage.setItem("username", data.user.username);
-        localStorage.setItem("email", data.user.username);
-        localStorage.setItem("token", data.token);
+        if (data.user) {
+          localStorage.setItem("username", data.user.username);
+          localStorage.setItem("email", data.user.username);
+          localStorage.setItem("token", data.token);
+        } else if (data.errors) {
+          throw Error(data.errors);
+        } else {
+          throw Error(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
       });
-    console.log(response);
   },
   register: async (
     avatar: string | null | BinaryType,
@@ -49,7 +59,23 @@ export const dataProvider = {
         },
         body: formData,
       }
-    );
-    console.log(response.body);
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.user) {
+          localStorage.setItem("username", data.user.username);
+          localStorage.setItem("email", data.user.username);
+          localStorage.setItem("token", data.token);
+        } else if (data.errors) {
+          throw Error(data.errors);
+        } else {
+          throw Error(data.message);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
