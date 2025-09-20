@@ -25,7 +25,10 @@ export default function Login() {
           type="password"
           required
         ></input>
-        <button onClick={(e: any) => dataProvider.login(email, password)}>
+        <button
+          className="cta-button"
+          onClick={(e: any) => dataProvider.login(email, password)}
+        >
           Log in
         </button>
         <p>

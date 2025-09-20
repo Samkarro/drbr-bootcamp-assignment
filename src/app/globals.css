@@ -39,3 +39,19 @@ h1 {
   font-weight: 600;
   font-size: 42px;
 }
+
+.cta-button {
+  background-color: var(--redseam-orange);
+  padding: 10px 20px 10px 20px;
+  border-radius: 10px;
+  transition: none;
+  width: 544px;
+  height: 41px;
+  color: white;
+  outline: none;
+  border: none;
+}
+
+.cta-button:hover {
+  cursor: pointer;
+}
