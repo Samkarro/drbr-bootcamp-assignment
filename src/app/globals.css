@@ -38,11 +38,17 @@ header {
   background-color: white;
 }
 
-.header-logo-container {
+.header-logo-container,
+.header-login-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.header-login-container:hover {
+  cursor: pointer;
+}
+
 a {
   text-decoration: none;
   color: var(--redseam-orange);
