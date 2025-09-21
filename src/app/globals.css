@@ -35,6 +35,7 @@ header {
   width: 1920px;
   height: 80px;
   justify-content: space-between;
+  background-color: white;
 }
 
 .header-logo-container {
@@ -63,6 +64,7 @@ h1 {
   color: white;
   outline: none;
   border: none;
+  font-family: Poppins, Arial, sans-serif;
 }
 
 .cta-button:hover {
