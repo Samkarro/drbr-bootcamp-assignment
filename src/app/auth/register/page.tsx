@@ -1,7 +1,9 @@
 "use client";
 
 import { dataProvider } from "@/app/data-provider";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import "../styles.auth.css";
+import AuthHeader from "../../../../components/header-auth";
 
 export default function Register() {
   const [username, setUsername] = useState("");
@@ -19,55 +21,69 @@ export default function Register() {
 
   return (
     <div className="auth-page-container">
-      <h1>Register</h1>
-      <input
-        className="user-image-upload"
-        type="file"
-        onChange={handleFileChange}
-        accept="image/png, image/jpeg, image/jpg"
-      />
-      <input
-        onChange={(e) => setUsername(e.target.value)}
-        className="username"
-        placeholder="Username"
-        required
-      ></input>
-      <input
-        onChange={(e) => setEmail(e.target.value)}
-        className="email"
-        placeholder="Email"
-        required
-      ></input>
-      <input
-        onChange={(e) => setPassword(e.target.value)}
-        className="password"
-        placeholder="Password"
-        type="password"
-        required
-      ></input>
-      <input
-        onChange={(e) => setPasswordConfirmation(e.target.value)}
-        className="password-confirmation"
-        placeholder="Confirm password"
-        type="password"
-        required
-      ></input>
-      <button
-        onClick={(e) =>
-          dataProvider.register(
-            avatar,
-            email,
-            password,
-            passwordConfirmation,
-            username
-          )
-        }
-      >
-        Register
-      </button>
-      <p>
-        Already a member? <a href="/auth/login">Log in</a>
-      </p>
+      <AuthHeader />
+      <main className="auth-main">
+        <img
+          alt="test"
+          className="auth-page-image"
+          src={"/images/authpage.png"}
+        />
+        <div className="auth-page-form-container">
+          <h1 style={{ width: "544px", marginBottom: "48px" }}>Register</h1>
+          <input
+            className="user-image-upload"
+            type="file"
+            onChange={handleFileChange}
+            accept="image/png, image/jpeg, image/jpg"
+          />
+          <input
+            onChange={(e) => setUsername(e.target.value)}
+            className="auth-text-input username"
+            placeholder="Username"
+            required
+          ></input>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            className="auth-text-input email"
+            placeholder="Email"
+            required
+          ></input>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            className="auth-text-input password"
+            placeholder="Password"
+            type="password"
+            required
+          ></input>
+          <input
+            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            className="auth-text-input password-confirmation"
+            placeholder="Confirm password"
+            type="password"
+            required
+          ></input>
+          <button
+            className="cta-button"
+            onClick={(e) =>
+              dataProvider.register(
+                avatar,
+                email,
+                password,
+                passwordConfirmation,
+                username
+              )
+            }
+            style={{
+              margin: "22px 0px 24px 0px",
+            }}
+          >
+            Register
+          </button>
+          <p>
+            Already a member? <a href="/auth/login">Log in</a>
+          </p>
+        </div>
+      </main>
     </div>
   );
 }
