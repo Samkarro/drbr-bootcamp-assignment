@@ -1,0 +1,12 @@
+.products-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-filter-bar-container {
+  margin-top: 72px;
+  display: flex;
+  justify-content: space-between;
+  width: 1720px;
+}
