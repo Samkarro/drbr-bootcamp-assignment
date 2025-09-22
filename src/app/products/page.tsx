@@ -1,13 +1,14 @@
-import { Suspense } from "react";
+"use client";
+import { Suspense, useState } from "react";
 import MainHeader from "../../../components/header-main";
-import ProductCard from "../../../components/product-card";
-
 import { dataProvider } from "../data-provider";
 import "./styles.products.css";
 import ProductList from "./product-list";
 
 export default function Products() {
-  const products = dataProvider.getProducts(1, 100, 500, "price");
+  const [page, setPage] = useState(1);
+
+  let products = dataProvider.getProducts(page, 100, 500, "price");
 
   return (
     <div>
@@ -18,7 +19,7 @@ export default function Products() {
         </div>
 
         <Suspense fallback={<h2>Loading...</h2>}>
-          <ProductList products={products} />
+          <ProductList products={products} setPage={setPage} />
         </Suspense>
       </main>
     </div>

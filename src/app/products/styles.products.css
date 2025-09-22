@@ -13,9 +13,12 @@
 
 .products-container {
   width: 1720px;
+}
+
+.product-cards-container {
+  width: 1720px;
   display: flex;
   flex-wrap: wrap;
-
   column-gap: 24px;
 }
 
