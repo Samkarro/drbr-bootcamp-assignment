@@ -1,7 +1,10 @@
+"use client";
 import MainHeader from "../../../components/header-main";
+import { dataProvider } from "../data-provider";
 import "./styles.products.css";
 
 export default function Products() {
+  const data = dataProvider.getProducts(1, 100, 500, "price");
   return (
     <div>
       <MainHeader />
