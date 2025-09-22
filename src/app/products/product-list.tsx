@@ -9,7 +9,7 @@ export default function ProductList({
     data: [
       {
         id: number;
-        image: string;
+        images: [string];
         name: string;
         price: number;
         release_year: string | Date;
@@ -32,12 +32,12 @@ export default function ProductList({
   }>;
 }) {
   const allProducts = use(products);
-
+  console.log(allProducts.data);
   return (
     <div className="products-container">
       {allProducts.data.map((product) => (
         <ProductCard
-          coverImage={product.image}
+          coverImage={product.images[0]}
           name={product.name}
           price={product.price}
         />

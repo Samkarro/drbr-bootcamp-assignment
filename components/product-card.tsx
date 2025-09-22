@@ -9,11 +9,11 @@ export default function ProductCard({
 }) {
   return (
     <div className="product-card">
-      <div className="product-image-container">
-        <img src={coverImage} />
+      <div className="product-list-image-container">
+        <img className="product-list-image" src={coverImage} />
         <div className="product-card-info-container">
-          <p>{name}</p>
-          <p>{price}</p>
+          <p style={{ fontSize: "18px" }}>{name}</p>
+          <p style={{ fontSize: "16px" }}>$ {price}</p>
         </div>
       </div>
     </div>
