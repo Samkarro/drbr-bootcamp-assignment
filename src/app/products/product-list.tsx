@@ -41,16 +41,18 @@ export default function ProductList({
   };
 
   return (
-    <div className="product-cards-container">
-      {allProducts.data.map((product) => (
-        <ProductCard
-          key={product.id}
-          coverImage={product.images[0]}
-          name={product.name}
-          price={product.price}
-        />
-      ))}
-      <nav className="page-nav-container">
+    <div className="products-container">
+      <div className="product-cards-container">
+        {allProducts.data.map((product) => (
+          <ProductCard
+            key={product.id}
+            coverImage={product.images[0]}
+            name={product.name}
+            price={product.price}
+          />
+        ))}
+      </div>
+      <div className="page-nav-container">
         {allProducts.meta.links.map((page) => {
           if (
             page.label === allProducts.meta.links[0].label ||
@@ -60,16 +62,29 @@ export default function ProductList({
             return;
           }
           return (
-            <button
+            <div
+              style={
+                page.active === true
+                  ? { outline: "1px solid #FF4000" }
+                  : { outline: "1px solid #F8F6F7" }
+              }
               key={page.label}
               className="page-nav-button"
               onClick={(e) => changepage(parseInt(page.label))}
             >
-              {page.label}
-            </button>
+              <p
+                style={
+                  page.active === true
+                    ? { color: "#FF4000" }
+                    : { color: "#3E424A", opacity: "60%" }
+                }
+              >
+                {page.label}
+              </p>
+            </div>
           );
         })}
-      </nav>
+      </div>
     </div>
   );
 }
