@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction, use } from "react";
+import { Dispatch, SetStateAction, use, useEffect } from "react";
 import ProductCard from "../../../components/product-card";
 
 export default function ProductList({
@@ -29,16 +29,38 @@ export default function ProductList({
       from: string;
       path: string;
       per_page: number;
-      to: number;
+      to: string;
+      total: string;
     };
   }>;
   setPage: Dispatch<SetStateAction<number>>;
 }) {
   const allProducts = use(products);
-  console.log(allProducts);
+
   const changepage = (num: number) => {
     setPage(num);
   };
+
+  useEffect(() => {
+    const element = document.getElementById("showing-results-text");
+
+    if (element) {
+      element.innerText = "Showing - of ... results";
+      let updatedText = element.innerText;
+
+      updatedText = updatedText.replace(
+        " - ",
+        ` ${allProducts.meta.from.toString()} - ${allProducts.meta.to.toString()} `
+      );
+      updatedText = updatedText.replace(
+        "...",
+        allProducts.meta.total.toString()
+      );
+      element.innerText = updatedText;
+
+      console.log("Updated text:", element.innerText);
+    }
+  }, [allProducts.meta.from, allProducts.meta.to]);
 
   return (
     <div className="products-container">
