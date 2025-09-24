@@ -17,8 +17,8 @@ export default function Products() {
         <div className="product-filter-bar-container">
           <h1>Products</h1>
           <div className="product-filters-container">
-            <p>Sort By</p>
-            <p>Filter</p>
+            <p id="sort-by-button">Sort By</p>
+            <p id="price-filter-button">Filter</p>
             <svg
               style={{
                 marginLeft: "32px",

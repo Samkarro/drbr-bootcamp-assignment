@@ -35,6 +35,10 @@
   flex-direction: column;
 }
 
+.product-card:hover {
+  cursor: pointer;
+}
+
 .product-list-image-container {
   background-color: var(--redseam-light-gray);
   width: 412px;
@@ -121,5 +125,12 @@
 }
 
 .page-nav-prev-next:hover {
+  cursor: pointer;
+}
+
+/* Filter buttons */
+
+#price-filter-button,
+#sort-by-button:hover {
   cursor: pointer;
 }

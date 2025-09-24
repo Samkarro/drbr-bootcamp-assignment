@@ -24,7 +24,7 @@ export default function ProductList({
       prev: string;
     };
     meta: {
-      current_page: number;
+      current_page: string;
       current_page_url: string;
       links: [{ url: string; label: string; active: boolean }];
       from: string;
@@ -78,6 +78,7 @@ export default function ProductList({
         {allProducts.data.map((product) => (
           <ProductCard
             key={product.id}
+            id={parseInt(allProducts.meta.current_page)}
             coverImage={product.images[0]}
             name={product.name}
             price={product.price}
