@@ -104,4 +104,27 @@ export const dataProvider = {
       });
     return response;
   },
+
+  getProduct: async (id: string) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/products/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        return data;
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    return response;
+  },
 };

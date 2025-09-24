@@ -78,7 +78,7 @@ export default function ProductList({
         {allProducts.data.map((product) => (
           <ProductCard
             key={product.id}
-            id={parseInt(allProducts.meta.current_page)}
+            id={product.id}
             coverImage={product.images[0]}
             name={product.name}
             price={product.price}
