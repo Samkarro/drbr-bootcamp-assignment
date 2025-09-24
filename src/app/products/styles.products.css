@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   width: 1720px;
+  margin-bottom: 32px;
 }
 
 .products-container {
@@ -64,9 +65,11 @@
   box-sizing: content-box;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   margin-bottom: 216px;
-
-  width: 300px;
+  margin-top: 42px;
+  column-gap: 8px;
+  width: auto;
 }
 
 .page-nav-button {
@@ -83,7 +86,6 @@
   border: none;
   transition: none;
   font-family: Poppins, Arial, sans-serif;
-  margin-top: 42px;
 }
 
 .page-nav-button p {
@@ -110,4 +112,14 @@
 #showing-results-text {
   font-size: 12px;
   color: #3e424a;
+}
+
+.page-nav-prev-next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-nav-prev-next:hover {
+  cursor: pointer;
 }

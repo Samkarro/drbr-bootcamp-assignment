@@ -43,7 +43,7 @@ export default function Products() {
         </div>
 
         <Suspense fallback={<h2>Loading...</h2>}>
-          <ProductList products={products} setPage={setPage} />
+          <ProductList products={products} setPage={setPage} page={page} />
         </Suspense>
       </main>
     </div>
