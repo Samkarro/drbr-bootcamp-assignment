@@ -79,44 +79,51 @@ export default function ProductPage({
           alt={product.name}
         />
         <div className="product-details-container">
-          <p className="product-name-and-pricing">{product.name}</p>
+          <p
+            className="product-name-and-pricing"
+            style={{ marginBottom: "21px" }}
+          >
+            {product.name}
+          </p>
           <p className="product-name-and-pricing">$ {product.price}</p>
 
-          <div className="color-picker-container">
-            <p className="option-label">Color: {selectedColor}</p>
-            <div style={{ display: "flex", columnGap: "18px" }}>
-              {product.available_colors.map((color) => (
-                <div
-                  key={color}
-                  className={`product-color ${
-                    selectedColor === color ? "product-color-active" : ""
-                  }`}
-                  style={{ background: colorMap[color] }}
-                  onClick={() => setSelectedColor(color)}
-                />
-              ))}
+          <div className="product-form">
+            <div className="color-picker-container">
+              <p className="option-label">Color: {selectedColor}</p>
+              <div style={{ display: "flex", columnGap: "18px" }}>
+                {product.available_colors.map((color) => (
+                  <div
+                    key={color}
+                    className={`product-color ${
+                      selectedColor === color ? "product-color-active" : ""
+                    }`}
+                    style={{ background: colorMap[color] }}
+                    onClick={() => setSelectedColor(color)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="size-picker-container">
-            <p className="option-label">Size: {selectedSize}</p>
-            <div style={{ display: "flex", columnGap: "18px" }}>
-              {product.available_sizes.map((size) => (
-                <div
-                  key={size}
-                  className={`product-size ${
-                    selectedSize === size ? "product-size-active" : ""
-                  }`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </div>
-              ))}
+            <div className="size-picker-container">
+              <p className="option-label">Size: {selectedSize}</p>
+              <div style={{ display: "flex", columnGap: "18px" }}>
+                {product.available_sizes.map((size) => (
+                  <div
+                    key={size}
+                    className={`product-size ${
+                      selectedSize === size ? "product-size-active" : ""
+                    }`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="quantity-picker-container">
-            <p className="option-label">Quantity</p>
-            <CustomSelect></CustomSelect>
+            <div className="quantity-picker-container">
+              <p className="option-label">Quantity</p>
+              <CustomSelect></CustomSelect>
+            </div>
           </div>
           <button
             className="cta-button"
@@ -148,14 +155,16 @@ export default function ProductPage({
             </svg>
             Add to cart
           </button>
-          <hr />
+          <hr style={{ margin: "56px 0px 56px 0px" }} />
           <div className="product-description-container">
             <div className="logo-detail-container">
               <h2>Details</h2>
               <img className="product-logo" src={product.brand.image} />
             </div>
-            <p>brand: {product.brand.name}</p>
-            <p>{product.description}</p>
+            <p className="option-label" style={{ margin: "7px 0px 19px 0px" }}>
+              Brand: {product.brand.name}
+            </p>
+            <p className="option-label">{product.description}</p>
           </div>
         </div>
       </div>

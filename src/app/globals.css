@@ -87,8 +87,9 @@ h1 {
 
 .select-wrapper {
   position: relative;
-  width: 200px;
-  font-family: sans-serif;
+  width: 70px;
+  height: 52px;
+  font-family: Poppins, Arial, sans-serif;
 }
 
 .select-trigger {
@@ -96,9 +97,10 @@ h1 {
   padding: 8px 12px;
   text-align: left;
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
   cursor: pointer;
+  font-family: Poppins, Arial, sans-serif;
 }
 
 .select-trigger .arrow {
@@ -114,8 +116,8 @@ h1 {
   padding: 0;
   list-style: none;
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
@@ -127,7 +129,7 @@ h1 {
 }
 
 .select-option:hover {
-  background: #f0f0f0;
+  background: var(--redseam-light-gray);
 }
 
 hr {
