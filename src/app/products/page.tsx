@@ -1,6 +1,6 @@
 "use client";
 import { Suspense, useState } from "react";
-import MainHeader from "../../../components/header-main";
+import MainHeader from "../(components)/header-main";
 import { dataProvider } from "../data-provider";
 import "./styles.products.css";
 import ProductList from "./product-list";

@@ -78,3 +78,7 @@ h1 {
 .cta-button:hover {
   cursor: pointer;
 }
+
+.clickable:hover {
+  cursor: pointer;
+}

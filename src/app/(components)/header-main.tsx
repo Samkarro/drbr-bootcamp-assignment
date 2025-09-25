@@ -1,7 +1,18 @@
+"use client";
+import { usePathname, useRouter } from "next/navigation";
+
 export default function MainHeader() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const toMainPage = () => {
+    if (pathname !== "/products") {
+      router.push("/products");
+    }
+  };
   return (
     <header>
-      <div className="header-logo-container">
+      <div className="header-logo-container clickable" onClick={toMainPage}>
         <svg
           style={{
             marginRight: "4px",
@@ -17,7 +28,13 @@ export default function MainHeader() {
             fill="#FF4000"
           />
         </svg>
-        <p style={{ fontWeight: 600, fontSize: "16px" }}>RedSeam Clothing</p>
+        <p
+          className="clickable"
+          style={{ fontWeight: 600, fontSize: "16px" }}
+          onClick={toMainPage}
+        >
+          RedSeam Clothing
+        </p>
       </div>
       <div className="header-login-container">
         <svg
