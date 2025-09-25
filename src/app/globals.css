@@ -129,3 +129,14 @@ h1 {
 .select-option:hover {
   background: #f0f0f0;
 }
+
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--redseam-mid-gray);
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 500px;
+}
