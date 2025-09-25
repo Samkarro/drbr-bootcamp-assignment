@@ -51,9 +51,13 @@ export default function ProductPage({
     returnedProduct.available_colors[0]
   );
 
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    returnedProduct.available_sizes[0]
+  );
+
   return (
     <div className="product-info-container">
-      <div className="all-product-pictures- ontainer">
+      <div className="all-product-pictures-container">
         {returnedProduct.images.map((image) => {
           if (image !== returnedProduct.images[0]) {
             return (
@@ -75,7 +79,7 @@ export default function ProductPage({
           <p className="product-name-and-pricing">{returnedProduct.name}</p>
           <p className="product-name-and-pricing">$ {returnedProduct.price}</p>
           <div className="color-picker-container">
-            <p>Color: {selectedColor}</p>
+            <p className="option-label">Color: {selectedColor}</p>
             <div style={{ display: "flex", columnGap: "18px" }}>
               {returnedProduct.available_colors.map((color) => {
                 return (
@@ -87,6 +91,24 @@ export default function ProductPage({
                     style={{ background: colorMap[color] }}
                     onClick={() => setSelectedColor(color)}
                   ></div>
+                );
+              })}
+            </div>
+          </div>
+          <div className="size-picker-container">
+            <p className="option-label">Size: {selectedSize}</p>
+            <div style={{ display: "flex", columnGap: "18px" }}>
+              {returnedProduct.available_sizes.map((size) => {
+                return (
+                  <div
+                    key={size}
+                    className={`product-size ${
+                      selectedSize === size ? "product-size-active" : ""
+                    }`}
+                    onClick={() => setSelectedSize(size)}
+                  >
+                    {size}
+                  </div>
                 );
               })}
             </div>
