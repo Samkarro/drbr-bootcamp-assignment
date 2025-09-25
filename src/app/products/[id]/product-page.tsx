@@ -1,5 +1,6 @@
 "use client";
 
+import CustomSelect from "@/app/(components)/custom-select";
 import { useState } from "react";
 
 export default function ProductPage({
@@ -112,6 +113,10 @@ export default function ProductPage({
                 </div>
               ))}
             </div>
+          </div>
+          <div className="quantity-picker-container">
+            <p className="option-label">Quantity</p>
+            <CustomSelect></CustomSelect>
           </div>
         </div>
       </div>

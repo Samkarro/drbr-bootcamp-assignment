@@ -82,3 +82,50 @@ h1 {
 .clickable:hover {
   cursor: pointer;
 }
+
+/* custom select */
+
+.select-wrapper {
+  position: relative;
+  width: 200px;
+  font-family: sans-serif;
+}
+
+.select-trigger {
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.select-trigger .arrow {
+  float: right;
+}
+
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.select-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.select-option:hover {
+  background: #f0f0f0;
+}
