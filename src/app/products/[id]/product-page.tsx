@@ -1,25 +1,26 @@
-import Script from "next/script";
-import { use, useEffect, useState } from "react";
+"use client";
+
+import { useState } from "react";
 
 export default function ProductPage({
   product,
 }: {
-  product: Promise<{
+  product: {
     id: number;
     name: string;
     description: string;
     release_year: string;
     cover_image: string;
-    images: [string];
+    images: string[];
     price: number;
-    available_colors: [string];
-    available_sizes: [string];
+    available_colors: string[];
+    available_sizes: string[];
     brand: {
       id: number;
       name: string;
       image: string;
     };
-  }>;
+  };
 }) {
   const colorMap: { [key: string]: string } = {
     White: "#FFFFFF",
@@ -46,25 +47,25 @@ export default function ProductPage({
     Olive: "#808000",
   };
 
-  const returnedProduct = use(product);
   const [selectedColor, setSelectedColor] = useState<string | null>(
-    returnedProduct.available_colors[0]
+    product.available_colors[0] ?? null
   );
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
-    returnedProduct.available_sizes[0]
+    product.available_sizes[0] ?? null
   );
 
   return (
     <div className="product-info-container">
       <div className="all-product-pictures-container">
-        {returnedProduct.images.map((image) => {
-          if (image !== returnedProduct.images[0]) {
+        {product.images.map((image) => {
+          if (image !== product.images[0]) {
             return (
               <img
                 key={image}
                 className="small-side-product-image"
                 src={image}
+                alt={product.name}
               />
             );
           }
@@ -73,44 +74,43 @@ export default function ProductPage({
       <div className="product-info-main-section">
         <img
           className="product-details-image"
-          src={returnedProduct.cover_image}
+          src={product.cover_image}
+          alt={product.name}
         />
         <div className="product-details-container">
-          <p className="product-name-and-pricing">{returnedProduct.name}</p>
-          <p className="product-name-and-pricing">$ {returnedProduct.price}</p>
+          <p className="product-name-and-pricing">{product.name}</p>
+          <p className="product-name-and-pricing">$ {product.price}</p>
+
           <div className="color-picker-container">
             <p className="option-label">Color: {selectedColor}</p>
             <div style={{ display: "flex", columnGap: "18px" }}>
-              {returnedProduct.available_colors.map((color) => {
-                return (
-                  <div
-                    key={color}
-                    className={`product-color ${
-                      selectedColor === color ? "product-color-active" : ""
-                    }`}
-                    style={{ background: colorMap[color] }}
-                    onClick={() => setSelectedColor(color)}
-                  ></div>
-                );
-              })}
+              {product.available_colors.map((color) => (
+                <div
+                  key={color}
+                  className={`product-color ${
+                    selectedColor === color ? "product-color-active" : ""
+                  }`}
+                  style={{ background: colorMap[color] }}
+                  onClick={() => setSelectedColor(color)}
+                />
+              ))}
             </div>
           </div>
+
           <div className="size-picker-container">
             <p className="option-label">Size: {selectedSize}</p>
             <div style={{ display: "flex", columnGap: "18px" }}>
-              {returnedProduct.available_sizes.map((size) => {
-                return (
-                  <div
-                    key={size}
-                    className={`product-size ${
-                      selectedSize === size ? "product-size-active" : ""
-                    }`}
-                    onClick={() => setSelectedSize(size)}
-                  >
-                    {size}
-                  </div>
-                );
-              })}
+              {product.available_sizes.map((size) => (
+                <div
+                  key={size}
+                  className={`product-size ${
+                    selectedSize === size ? "product-size-active" : ""
+                  }`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </div>
+              ))}
             </div>
           </div>
         </div>
