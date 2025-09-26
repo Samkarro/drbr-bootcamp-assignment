@@ -44,7 +44,7 @@
   width: 412px;
   height: 549px;
   border-radius: 10px;
-  box-shadow: 0px 0px 15px var(--redseam-mid-gray);
+  outline: 1px solid var(--redseam-mid-gray);
 }
 
 .product-list-image {
@@ -141,12 +141,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 110px;
 }
 
 .product-details-image {
   width: 703px;
   height: 937px;
-  box-shadow: 0px 0px 15px var(--redseam-mid-gray);
+  outline: 1px solid var(--redseam-mid-gray);
   border-radius: 10px;
 }
 
@@ -171,6 +172,7 @@
 .small-side-product-image {
   width: 121px;
   height: 161.33px;
+  outline: 1px solid var(--redseam-mid-gray);
 }
 
 .product-details-container {

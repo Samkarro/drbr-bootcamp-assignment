@@ -1,18 +1,26 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function MainHeader() {
   const router = useRouter();
   const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
 
   const toMainPage = () => {
     if (pathname !== "/products") {
       router.push("/products");
     }
   };
+
   return (
     <header>
-      <div className="header-logo-container clickable" onClick={toMainPage}>
+      <div className="header-logo-container" onClick={toMainPage}>
         <svg
           style={{
             marginRight: "4px",
@@ -28,41 +36,29 @@ export default function MainHeader() {
             fill="#FF4000"
           />
         </svg>
-        <p
-          className="clickable"
-          style={{ fontWeight: 600, fontSize: "16px" }}
-          onClick={toMainPage}
-        >
-          RedSeam Clothing
-        </p>
+        <p style={{ fontWeight: 600, fontSize: "16px" }}>RedSeam Clothing</p>
       </div>
-      <div className="header-login-container">
-        <svg
-          style={{ marginRight: "8px" }}
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10.001 8C11.6578 8 13.001 6.65685 13.001 5C13.001 3.34315 11.6578 2 10.001 2C8.34412 2 7.00098 3.34315 7.00098 5C7.00098 6.65685 8.34412 8 10.001 8Z"
-            fill="#10151F"
-          />
-          <path
-            d="M3.46615 14.4935C3.27126 15.0016 3.44533 15.571 3.87518 15.9046C5.56753 17.218 7.69299 18 10.0011 18C12.3115 18 14.439 17.2164 16.1322 15.9006C16.5618 15.5667 16.7355 14.9971 16.5403 14.4892C15.531 11.8635 12.9852 10 10.004 10C7.02129 10 4.47427 11.8656 3.46615 14.4935Z"
-            fill="#10151F"
-          />
-        </svg>
 
-        <p
-          style={{
-            fontWeight: "500",
-          }}
-        >
-          Log in
-        </p>
-      </div>
+      {isLoggedIn ? (
+        <div className="header-cart-container">
+          <button
+            onClick={() => {
+              console.log("open sidebar");
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            🛒
+          </button>
+        </div>
+      ) : (
+        <div className="header-login-container">
+          <p style={{ fontWeight: "500" }}>Log in</p>
+        </div>
+      )}
     </header>
   );
 }

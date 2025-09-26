@@ -127,4 +127,20 @@ export const dataProvider = {
       });
     return response;
   },
+
+  getCart: async (token: string | null) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  },
 };
