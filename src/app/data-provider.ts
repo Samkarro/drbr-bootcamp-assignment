@@ -20,9 +20,9 @@ export const dataProvider = {
       })
       .then(function (data) {
         if (data.user && !data.errors) {
-          localStorage.setItem("username", data.user.username);
-          localStorage.setItem("email", data.user.username);
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("redseam-username", data.user.username);
+          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
           throw Error(data.errors);
@@ -67,9 +67,9 @@ export const dataProvider = {
       })
       .then((data) => {
         if (data.user && !data.errors) {
-          localStorage.setItem("username", data.user.username);
-          localStorage.setItem("email", data.user.username);
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("redseam-username", data.user.username);
+          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
           throw Error(data.errors);
@@ -129,10 +129,58 @@ export const dataProvider = {
   },
 
   getCart: async (token: string | null) => {
+    try {
+      const res = await fetch(
+        "https://api.redseam.redberryinternship.ge/api/cart",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.log(err);
+      return null;
+    }
+  },
+
+  addToCart: async (
+    product: number,
+    color: string,
+    quantity: number | null,
+    size: string | null,
+    token: string | null
+  ) => {
     const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart`,
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
       {
-        method: "GET",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          color,
+          size,
+          quantity,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  },
+
+  removeFromCart: async (product: number, token: string | null) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
+      {
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -142,5 +190,26 @@ export const dataProvider = {
     ).catch((err) => {
       console.log(err);
     });
+  },
+
+  updateCart: async (
+    productId: number,
+    quantity: number,
+    token: string | null
+  ) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${productId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quantity }),
+      }
+    );
+
+    return response.json();
   },
 };

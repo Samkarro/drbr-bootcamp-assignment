@@ -1,7 +1,9 @@
 "use client";
 
 import CustomSelect from "@/app/(components)/custom-select";
-import { useState } from "react";
+import { dataProvider } from "@/app/data-provider";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ProductPage({
   product,
@@ -48,13 +50,33 @@ export default function ProductPage({
     Olive: "#808000",
   };
 
-  const [selectedColor, setSelectedColor] = useState<string | null>(
+  const [selectedColor, setSelectedColor] = useState<string>(
     product.available_colors[0] ?? null
   );
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.available_sizes[0] ?? null
   );
+
+  const [selectedQuantity, setSelectedQuantity] = useState(3);
+
+  const router = useRouter();
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    setToken(localStorage.getItem("redseam-token"));
+  }, []);
+
+  const addToCart = () => {
+    dataProvider
+      .addToCart(
+        product.id,
+        selectedColor,
+        selectedQuantity,
+        selectedSize,
+        token
+      )
+      .then(() => router.push("/products"));
+  };
 
   return (
     <div className="product-info-container">
@@ -122,11 +144,15 @@ export default function ProductPage({
             </div>
             <div className="quantity-picker-container">
               <p className="option-label">Quantity</p>
-              <CustomSelect></CustomSelect>
+              <CustomSelect
+                value={selectedQuantity}
+                onChange={setSelectedQuantity}
+              ></CustomSelect>
             </div>
           </div>
           <button
             className="cta-button"
+            onClick={addToCart}
             style={{
               width: "100%",
               height: "59px",

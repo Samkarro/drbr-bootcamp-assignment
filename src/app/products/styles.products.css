@@ -189,6 +189,7 @@
   height: 38px;
   width: 38px;
   border-radius: 30px;
+  border: 1px solid var(--redseam-mid-gray);
 }
 .product-color:hover {
   cursor: pointer;

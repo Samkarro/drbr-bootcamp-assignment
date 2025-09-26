@@ -8,8 +8,8 @@ export default async function ProductsID({
 }: {
   params: { id: string };
 }) {
-  const id = await params.id;
-  const product = await dataProvider.getProduct(id);
+  const newParams = await params;
+  const product = await dataProvider.getProduct(newParams.id);
 
   return (
     <div>

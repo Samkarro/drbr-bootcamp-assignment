@@ -1,15 +1,19 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Sidebar from "./sidebar";
 
 export default function MainHeader() {
   const router = useRouter();
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("redseam-token");
     setIsLoggedIn(!!token);
+    setToken(token);
   }, []);
 
   const toMainPage = () => {
@@ -20,7 +24,7 @@ export default function MainHeader() {
 
   return (
     <header>
-      <div className="header-logo-container" onClick={toMainPage}>
+      <div className="header-logo-container clickable" onClick={toMainPage}>
         <svg
           style={{
             marginRight: "4px",
@@ -43,7 +47,7 @@ export default function MainHeader() {
         <div className="header-cart-container">
           <button
             onClick={() => {
-              console.log("open sidebar");
+              setIsSidebarOpen(true);
             }}
             style={{
               background: "none",
@@ -58,6 +62,10 @@ export default function MainHeader() {
         <div className="header-login-container">
           <p style={{ fontWeight: "500" }}>Log in</p>
         </div>
+      )}
+
+      {isSidebarOpen && (
+        <Sidebar token={token} setIsSidebarOpen={setIsSidebarOpen} />
       )}
     </header>
   );
