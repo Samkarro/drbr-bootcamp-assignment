@@ -20,9 +20,9 @@ export const dataProvider = {
       })
       .then(function (data) {
         if (data.user && !data.errors) {
-          localStorage.setItem("username", data.user.username);
-          localStorage.setItem("email", data.user.username);
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("redseam-username", data.user.username);
+          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
           throw Error(data.errors);
@@ -67,9 +67,9 @@ export const dataProvider = {
       })
       .then((data) => {
         if (data.user && !data.errors) {
-          localStorage.setItem("username", data.user.username);
-          localStorage.setItem("email", data.user.username);
-          localStorage.setItem("token", data.token);
+          localStorage.setItem("redseam-username", data.user.username);
+          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
           throw Error(data.errors);

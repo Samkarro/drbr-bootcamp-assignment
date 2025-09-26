@@ -1,7 +1,24 @@
-import { dataProvider } from "../data-provider";
+"use client";
+import { Dispatch, SetStateAction } from "react";
+import "./styles.sidebar.css";
+import SidebarContent from "./sidebar-content";
 
-export default async function Sidebar() {
-  const token: string | null = localStorage.getItem("redseam-token");
-  const cart = await dataProvider.getCart(token);
-  return <div className="sidebar-container"></div>;
+export default function Sidebar({
+  token,
+  setIsSidebarOpen,
+}: {
+  token: string | null;
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+}) {
+  return (
+    <>
+      <div
+        className="sidebar-overlay"
+        onClick={() => setIsSidebarOpen(false)}
+      />
+      <div className="sidebar-container open">
+        <SidebarContent token={token} />
+      </div>
+    </>
+  );
 }
