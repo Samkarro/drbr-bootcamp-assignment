@@ -143,4 +143,31 @@ export const dataProvider = {
       console.log(err);
     });
   },
+
+  addToCart: async (
+    product: number,
+    color: string,
+    quantity: number | null,
+    size: string | null,
+    token: string | null
+  ) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          color,
+          size,
+          quantity,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  },
 };
