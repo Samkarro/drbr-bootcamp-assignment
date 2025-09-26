@@ -129,19 +129,24 @@ export const dataProvider = {
   },
 
   getCart: async (token: string | null) => {
-    const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    ).catch((err) => {
+    try {
+      const res = await fetch(
+        "https://api.redseam.redberryinternship.ge/api/cart",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+      return data;
+    } catch (err) {
       console.log(err);
-    });
+      return null;
+    }
   },
 
   addToCart: async (

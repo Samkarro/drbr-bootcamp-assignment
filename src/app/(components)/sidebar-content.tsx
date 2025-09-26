@@ -1,7 +1,6 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { dataProvider } from "../data-provider";
-import CartItem from "./cart-item";
 
 export default function SidebarContent({
   token,
@@ -14,10 +13,17 @@ export default function SidebarContent({
 
   useEffect(() => {
     if (!token) return;
-    dataProvider.getCart(token).then(setCart);
-    console.log(cart);
+    dataProvider.getCart(token).then((data) => {
+      setCart(data);
+      console.log(data);
+    });
   }, [token]);
 
+  useEffect(() => {
+    if (cart?.length) {
+      setAmt(cart.length);
+    }
+  }, [cart]);
   if (!cart) {
     return (
       <div className="empty-cart-container">
@@ -33,11 +39,21 @@ export default function SidebarContent({
 
   return (
     <div style={{ padding: "1rem" }}>
-      {cart.items?.length ? (
+      {cart?.length ? (
         <div>
-          (
-          {cart.items.map((item: any) => (
-            <CartItem key={item}></CartItem>
+          {cart.map((item: any) => (
+            <div key={item.id} className="cart-item">
+              <img src={item.cover_image} />
+              <div className="cart-item-info">
+                <div style={{}}>
+                  <p>{item.name}</p>
+                  <p style={{ fontSize: "18px" }}>$ {item.price}</p>
+                </div>
+              </div>
+              <p>{item.color}</p>
+              <p>{item.size}</p>
+              <div className="cart-item-controls"></div>
+            </div>
           ))}
           )
         </div>
