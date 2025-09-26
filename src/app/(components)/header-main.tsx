@@ -24,7 +24,7 @@ export default function MainHeader() {
 
   return (
     <header>
-      <div className="header-logo-container" onClick={toMainPage}>
+      <div className="header-logo-container clickable" onClick={toMainPage}>
         <svg
           style={{
             marginRight: "4px",

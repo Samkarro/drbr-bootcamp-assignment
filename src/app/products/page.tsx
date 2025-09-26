@@ -8,8 +8,9 @@ export default async function Products({
 }: {
   searchParams: { page?: string };
 }) {
-  const page = parseInt(searchParams.page ?? "1");
-  const products = await dataProvider.getProducts(page, 100, 500, "price");
+  const filters = await searchParams;
+  const page = parseInt((await filters.page) ?? "1");
+  const products = await dataProvider.getProducts(page, 1, 5000, "price");
 
   return (
     <div>

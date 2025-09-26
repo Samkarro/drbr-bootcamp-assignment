@@ -1,6 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { dataProvider } from "../data-provider";
+import CartItem from "./cart-item";
 
 export default function SidebarContent({
   token,
@@ -14,6 +15,7 @@ export default function SidebarContent({
   useEffect(() => {
     if (!token) return;
     dataProvider.getCart(token).then(setCart);
+    console.log(cart);
   }, [token]);
 
   if (!cart) {
@@ -32,15 +34,22 @@ export default function SidebarContent({
   return (
     <div style={{ padding: "1rem" }}>
       {cart.items?.length ? (
-        <ul>
+        <div>
+          (
           {cart.items.map((item: any) => (
-            <li key={item.id}>
-              {item.name} × {item.quantity}
-            </li>
+            <CartItem key={item}></CartItem>
           ))}
-        </ul>
+          )
+        </div>
       ) : (
-        <p>Cart is empty.</p>
+        <div className="empty-cart-container">
+          <div className="cart-image-container">
+            <img
+              src={"/images/big-cart.png"}
+              style={{ width: "120.12", height: "97.79" }}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
