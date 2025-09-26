@@ -13,6 +13,17 @@
   width: 580px;
   height: 1080%;
   background-color: white;
-  border-left: 1px solid var(--redseam-silver-blue);
+  border-left: 1px solid var(--redseam-mid-gray);
   z-index: 101;
+  padding: 40px;
+}
+
+.cart-top-bar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-size {
+  font-weight: 500;
 }

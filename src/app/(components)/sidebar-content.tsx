@@ -1,8 +1,14 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { dataProvider } from "../data-provider";
 
-export default function SidebarContent({ token }: { token: string | null }) {
+export default function SidebarContent({
+  token,
+  setAmt,
+}: {
+  token: string | null;
+  setAmt: Dispatch<SetStateAction<number>>;
+}) {
   const [cart, setCart] = useState<any>(null);
 
   useEffect(() => {
@@ -10,11 +16,21 @@ export default function SidebarContent({ token }: { token: string | null }) {
     dataProvider.getCart(token).then(setCart);
   }, [token]);
 
-  if (!cart) return <p>Loading...</p>;
+  if (!cart) {
+    return (
+      <div className="empty-cart-container">
+        <div className="cart-image-container">
+          <img
+            src={"/images/big-cart.png"}
+            style={{ width: "120.12", height: "97.79" }}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: "1rem" }}>
-      <h2>Your Cart</h2>
       {cart.items?.length ? (
         <ul>
           {cart.items.map((item: any) => (
