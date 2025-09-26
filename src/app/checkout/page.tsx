@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import MainHeader from "../(components)/header-main";
 import "./styles.checkout.css";
+import CheckoutCart from "./checkout-cart";
+import { dataProvider } from "../data-provider";
 
 export default function CheckoutPage() {
   let localEmail: string | null = "";
@@ -11,6 +13,12 @@ export default function CheckoutPage() {
       setEmail(storedEmail);
     }
   }, []);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("redseam-token");
+    setToken(token);
+  }, []);
 
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -19,6 +27,13 @@ export default function CheckoutPage() {
 
   const [address, setAddress] = useState("");
   const [zipcode, setZipcode] = useState("");
+
+  const handlePayment = () => {
+    console.log(name, surname, email, address, zipcode, token);
+    dataProvider
+      .pay(name, surname, email, address, zipcode, token)
+      .then(() => console.log("success"));
+  };
 
   return (
     <div>
@@ -32,11 +47,13 @@ export default function CheckoutPage() {
               <input
                 className="checkout-text-input shorter"
                 placeholder="Name"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <input
                 className="checkout-text-input shorter"
                 placeholder="Surname"
+                value={surname}
                 onChange={(e) => setSurname(e.target.value)}
               />
             </div>
@@ -69,14 +86,25 @@ export default function CheckoutPage() {
               <input
                 className="checkout-text-input shorter"
                 placeholder="Address"
+                value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
               <input
                 className="checkout-text-input shorter"
                 placeholder="Zipcode"
-                onChange={(e) => setZipcode(e.target.value)}
+                value={zipcode}
+                onChange={(e) => {
+                  const onlyNums = e.target.value.replace(/\D/g, "");
+                  setZipcode(onlyNums);
+                }}
               />
             </div>
+          </div>
+          <div className="checkout-cart-container">
+            <CheckoutCart
+              token={token}
+              handlePayment={handlePayment}
+            ></CheckoutCart>
           </div>
         </div>
       </main>

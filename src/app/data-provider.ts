@@ -212,4 +212,34 @@ export const dataProvider = {
 
     return response.json();
   },
+
+  pay: async (
+    name: string,
+    surname: string,
+    email: string,
+    address: string,
+    zip_code: string,
+    token: string | null
+  ) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/checkout`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name,
+          surname,
+          email,
+          address,
+          zip_code,
+        }),
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  },
 };
