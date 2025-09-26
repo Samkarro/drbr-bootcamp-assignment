@@ -38,24 +38,29 @@ export default function SidebarContent({
   }
 
   return (
-    <div style={{ padding: "1rem" }}>
+    <div>
       {cart?.length ? (
-        <div>
+        <div
+          style={{
+            overflow: "scroll",
+            height: "700px",
+            padding: "1px 1px 1px 1px",
+          }}
+        >
           {cart.map((item: any) => (
             <div key={item.id} className="cart-item">
               <img src={item.cover_image} />
               <div className="cart-item-info">
-                <div style={{}}>
+                <div className="cart-item-info-top-text">
                   <p>{item.name}</p>
                   <p style={{ fontSize: "18px" }}>$ {item.price}</p>
                 </div>
+                <p>{item.color}</p>
+                <p>{item.size}</p>
+                <div className="cart-item-controls"></div>
               </div>
-              <p>{item.color}</p>
-              <p>{item.size}</p>
-              <div className="cart-item-controls"></div>
             </div>
           ))}
-          )
         </div>
       ) : (
         <div className="empty-cart-container">
