@@ -175,4 +175,20 @@ export const dataProvider = {
       console.log(err);
     });
   },
+
+  removeFromCart: async (product: number, token: string | null) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    ).catch((err) => {
+      console.log(err);
+    });
+  },
 };

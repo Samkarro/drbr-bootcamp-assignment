@@ -24,6 +24,7 @@ export default function SidebarContent({
       setAmt(cart.length);
     }
   }, [cart]);
+
   if (!cart) {
     return (
       <div className="empty-cart-container">
@@ -36,6 +37,17 @@ export default function SidebarContent({
       </div>
     );
   }
+
+  const handleRemove = async (productId: number) => {
+    if (!token) return;
+    try {
+      await dataProvider.removeFromCart(productId, token);
+
+      setCart((prev: any) => prev.filter((item: any) => item.id !== productId));
+    } catch (err) {
+      console.log("Failed to remove product:", err);
+    }
+  };
 
   return (
     <div>
@@ -57,7 +69,15 @@ export default function SidebarContent({
                 </div>
                 <p>{item.color}</p>
                 <p>{item.size}</p>
-                <div className="cart-item-controls"></div>
+                <div className="cart-item-controls">
+                  <div className="quantity-editor-container"></div>
+                  <p
+                    className="cart-item-remover"
+                    onClick={() => handleRemove(item.id)}
+                  >
+                    Remove
+                  </p>
+                </div>
               </div>
             </div>
           ))}
