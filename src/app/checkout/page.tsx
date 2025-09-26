@@ -2,14 +2,25 @@
 import { useEffect, useState } from "react";
 import MainHeader from "../(components)/header-main";
 import "./styles.checkout.css";
+import CheckoutCart from "./checkout-cart";
+import { dataProvider } from "../data-provider";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
+  const router = useRouter();
+
   let localEmail: string | null = "";
   useEffect(() => {
     const storedEmail = localStorage.getItem("redseam-email");
     if (storedEmail) {
       setEmail(storedEmail);
     }
+  }, []);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem("redseam-token");
+    setToken(token);
   }, []);
 
   const [name, setName] = useState("");
@@ -19,6 +30,18 @@ export default function CheckoutPage() {
 
   const [address, setAddress] = useState("");
   const [zipcode, setZipcode] = useState("");
+
+  const handlePayment = () => {
+    console.log(name, surname, email, address, zipcode, token);
+    dataProvider
+      .pay(name, surname, email, address, zipcode, token)
+      .then(() => {
+        setPaymentSuccess(true);
+      })
+      .catch((err) => console.error("Payment failed", err));
+  };
+
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   return (
     <div>
@@ -32,11 +55,13 @@ export default function CheckoutPage() {
               <input
                 className="checkout-text-input shorter"
                 placeholder="Name"
+                value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <input
                 className="checkout-text-input shorter"
                 placeholder="Surname"
+                value={surname}
                 onChange={(e) => setSurname(e.target.value)}
               />
             </div>
@@ -69,17 +94,68 @@ export default function CheckoutPage() {
               <input
                 className="checkout-text-input shorter"
                 placeholder="Address"
+                value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
               <input
                 className="checkout-text-input shorter"
                 placeholder="Zipcode"
-                onChange={(e) => setZipcode(e.target.value)}
+                value={zipcode}
+                onChange={(e) => {
+                  const onlyNums = e.target.value.replace(/\D/g, "");
+                  setZipcode(onlyNums);
+                }}
               />
             </div>
           </div>
+          <div className="checkout-cart-container">
+            <CheckoutCart
+              token={token}
+              handlePayment={handlePayment}
+            ></CheckoutCart>
+          </div>
         </div>
       </main>
+      {paymentSuccess && (
+        <div className="overlay">
+          <div className="modal">
+            <div className="x-button-container">
+              <svg
+                className="modal-x-button"
+                onClick={() => router.push("/products")}
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12.5607 10.4393C11.9749 9.85355 11.0251 9.85355 10.4393 10.4393C9.85355 11.0251 9.85355 11.9749 10.4393 12.5607L17.8787 20L10.4393 27.4393C9.85355 28.0251 9.85355 28.9749 10.4393 29.5607C11.0251 30.1464 11.9749 30.1464 12.5607 29.5607L20 22.1213L27.4393 29.5607C28.0251 30.1464 28.9749 30.1464 29.5607 29.5607C30.1464 28.9749 30.1464 28.0251 29.5607 27.4393L22.1213 20L29.5607 12.5607C30.1464 11.9749 30.1464 11.0251 29.5607 10.4393C28.9749 9.85355 28.0251 9.85355 27.4393 10.4393L20 17.8787L12.5607 10.4393Z"
+                  fill="#3E424A"
+                />
+              </svg>
+            </div>
+
+            <img className="checkmark-icon" src={"/images/check.png"}></img>
+            <div className="modal-text-container">
+              <h1>Congrats!</h1>
+              <p>Your order is placed successfully!</p>
+            </div>
+
+            <button
+              className="cta-button"
+              style={{
+                height: "41px",
+                width: "210px",
+                fontSize: "14px",
+              }}
+              onClick={() => router.push("/products")}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
