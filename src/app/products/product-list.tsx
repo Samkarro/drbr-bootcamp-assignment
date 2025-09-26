@@ -1,94 +1,63 @@
 "use client";
-import { Dispatch, SetStateAction, use, useEffect } from "react";
-import ProductCard from "../../../components/product-card";
+
+import { useRouter } from "next/navigation";
+import ProductCard from "../(components)/product-card";
 
 export default function ProductList({
   products,
-  setPage,
   page,
 }: {
-  products: Promise<{
-    data: [
-      {
-        id: number;
-        images: [string];
-        name: string;
-        price: number;
-        release_year: string | Date;
-      }
-    ];
+  products: {
+    data: {
+      id: number;
+      images: string[];
+      name: string;
+      price: number;
+      release_year: string | Date;
+    }[];
     links: {
       first: string;
       last: string;
-      next: string;
-      prev: string;
+      next: string | null;
+      prev: string | null;
     };
     meta: {
-      current_page: string;
-      current_page_url: string;
-      links: [{ url: string; label: string; active: boolean }];
-      from: string;
-      path: string;
+      current_page: number;
+      links: { url: string | null; label: string; active: boolean }[];
+      from: number;
+      to: number;
+      total: number;
       per_page: number;
-      to: string;
-      total: string;
     };
-  }>;
-  setPage: Dispatch<SetStateAction<number>>;
+  };
   page: number;
 }) {
-  const allProducts = use(products);
-  console.log(allProducts.meta);
+  const router = useRouter();
+
   const changepage = (num: number) => {
-    if (num < 1) {
-      console.log("too small");
-      return;
-    }
-    if (num >= allProducts.meta.links.length - 1) {
-      console.log("too big");
-      return;
-    }
-    setPage(num);
+    if (num < 1 || num > products.meta.links.length - 2) return;
+    router.push(`/products?page=${num}`);
   };
-
-  useEffect(() => {
-    const element = document.getElementById("showing-results-text");
-
-    if (element) {
-      element.innerText = "Showing - of ... results";
-      let updatedText = element.innerText;
-
-      updatedText = updatedText.replace(
-        " - ",
-        ` ${allProducts.meta.from.toString()} - ${allProducts.meta.to.toString()} `
-      );
-      updatedText = updatedText.replace(
-        "...",
-        allProducts.meta.total.toString()
-      );
-      element.innerText = updatedText;
-
-      console.log("Updated text:", element.innerText);
-    }
-  }, [allProducts.meta.from, allProducts.meta.to]);
 
   return (
     <div className="products-container">
       <div className="product-cards-container">
-        {allProducts.data.map((product) => (
+        {products.data.map((product) => (
           <ProductCard
             key={product.id}
-            id={parseInt(allProducts.meta.current_page)}
+            id={product.id}
             coverImage={product.images[0]}
             name={product.name}
             price={product.price}
           />
         ))}
       </div>
+
       <div className="page-nav-container">
+        {/* Prev button */}
         <div
           className="page-nav-prev-next"
-          onClick={(e) => changepage(page - 1)}
+          onClick={() => changepage(page - 1)}
         >
           <svg
             width="20"
@@ -105,40 +74,39 @@ export default function ProductList({
             />
           </svg>
         </div>
-        {allProducts.meta.links.map((page) => {
-          if (
-            page.label === allProducts.meta.links[0].label ||
-            page.label ===
-              allProducts.meta.links[allProducts.meta.links.length - 1].label
-          ) {
-            return;
-          }
+
+        {/* Page numbers */}
+        {products.meta.links.map((link, i) => {
+          if (i === 0 || i === products.meta.links.length - 1) return null;
+
           return (
             <div
               style={
-                page.active === true
+                link.active
                   ? { outline: "1px solid #FF4000" }
                   : { outline: "1px solid #F8F6F7" }
               }
-              key={page.label}
+              key={link.label}
               className="page-nav-button"
-              onClick={(e) => changepage(parseInt(page.label))}
+              onClick={() => changepage(parseInt(link.label))}
             >
               <p
                 style={
-                  page.active === true
+                  link.active
                     ? { color: "#FF4000" }
                     : { color: "#3E424A", opacity: "60%" }
                 }
               >
-                {page.label}
+                {link.label}
               </p>
             </div>
           );
         })}
+
+        {/* Next button */}
         <div
           className="page-nav-prev-next"
-          onClick={(e) => changepage(page + 1)}
+          onClick={() => changepage(page + 1)}
         >
           <svg
             width="20"

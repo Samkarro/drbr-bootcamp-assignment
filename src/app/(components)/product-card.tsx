@@ -1,4 +1,5 @@
-import { redirect } from "next/navigation";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function ProductCard({
   id,
@@ -11,8 +12,9 @@ export default function ProductCard({
   name: string;
   price: number;
 }) {
+  const router = useRouter();
   const ProductByID = () => {
-    redirect(`/products/${id}`);
+    router.push(`/products/${id}`);
   };
 
   return (

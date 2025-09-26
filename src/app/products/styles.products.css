@@ -44,7 +44,7 @@
   width: 412px;
   height: 549px;
   border-radius: 10px;
-  box-shadow: 0px 0px 15px var(--redseam-mid-gray);
+  outline: 1px solid var(--redseam-mid-gray);
 }
 
 .product-list-image {
@@ -133,4 +133,125 @@
 #price-filter-button,
 #sort-by-button:hover {
   cursor: pointer;
+}
+
+/* Per product page */
+
+.product-id-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 110px;
+}
+
+.product-details-image {
+  width: 703px;
+  height: 937px;
+  outline: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
+}
+
+.product-info-container {
+  display: flex;
+}
+.product-info-main-section {
+  display: flex;
+  justify-content: space-between;
+  width: 1575px;
+}
+
+.all-product-pictures-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 121px;
+  height: auto;
+  margin-right: 24px;
+}
+
+.small-side-product-image {
+  width: 121px;
+  height: 161.33px;
+  outline: 1px solid var(--redseam-mid-gray);
+}
+
+.product-details-container {
+  width: 704px;
+  height: auto;
+}
+
+.product-name-and-pricing {
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.product-color {
+  height: 38px;
+  width: 38px;
+  border-radius: 30px;
+}
+.product-color:hover {
+  cursor: pointer;
+}
+
+.product-color-active {
+  outline: 1px solid var(--redseam-mid-gray);
+  outline-offset: 5px;
+}
+
+.product-size {
+  outline: 1px solid var(--redseam-mid-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  width: 70px;
+  height: 42px;
+  column-gap: 8px;
+}
+
+.product-size-active {
+  background-color: var(--redseam-light-gray);
+  outline: 1px solid var(--redseam-navy-blue);
+}
+
+.product-size:hover {
+  cursor: pointer;
+}
+
+.logo-detail-container {
+  width: 100%;
+  height: 61px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product-logo {
+  height: max-content;
+  width: 109px;
+  object-fit: contain;
+}
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 382px;
+  margin: 56px 0px 56px 0px;
+}
+
+.color-picker-container {
+  display: flex;
+  flex-direction: column;
+  height: 88px;
+  justify-content: space-between;
+}
+
+.size-picker-container,
+.quantity-picker-container {
+  display: flex;
+  flex-direction: column;
+  height: 82px;
+  justify-content: space-between;
 }

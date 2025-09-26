@@ -1,9 +1,32 @@
-import MainHeader from "../../../../components/header-main";
+import { dataProvider } from "@/app/data-provider";
+import MainHeader from "../../(components)/header-main";
+import ProductPage from "./product-page";
+import "../styles.products.css";
 
-export default function ProductsID() {
+export default async function ProductsID({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const id = await params.id;
+  const product = await dataProvider.getProduct(id);
+
   return (
     <div>
-      <MainHeader></MainHeader>
+      <MainHeader />
+      <main className="product-id-main">
+        <p
+          style={{
+            width: "1720px",
+            fontWeight: "300",
+            marginTop: "30px",
+            marginBottom: "49px",
+          }}
+        >
+          Listing / Product
+        </p>
+        <ProductPage product={product} />
+      </main>
     </div>
   );
 }

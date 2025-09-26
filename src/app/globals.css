@@ -78,3 +78,67 @@ h1 {
 .cta-button:hover {
   cursor: pointer;
 }
+
+.clickable:hover {
+  cursor: pointer;
+}
+
+/* custom select */
+
+.select-wrapper {
+  position: relative;
+  width: 70px;
+  height: 52px;
+  font-family: Poppins, Arial, sans-serif;
+}
+
+.select-trigger {
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  background: white;
+  border: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: Poppins, Arial, sans-serif;
+}
+
+.select-trigger .arrow {
+  float: right;
+}
+
+.select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  margin: 4px 0 0 0;
+  padding: 0;
+  list-style: none;
+  background: white;
+  border: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.select-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.select-option:hover {
+  background: var(--redseam-light-gray);
+}
+
+hr {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--redseam-mid-gray);
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 500px;
+}

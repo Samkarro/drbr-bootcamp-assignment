@@ -1,14 +1,15 @@
-"use client";
-import { Suspense, useState } from "react";
-import MainHeader from "../../../components/header-main";
+import MainHeader from "../(components)/header-main";
 import { dataProvider } from "../data-provider";
 import "./styles.products.css";
 import ProductList from "./product-list";
 
-export default function Products() {
-  const [page, setPage] = useState(1);
-
-  let products = dataProvider.getProducts(page, 100, 500, "price");
+export default async function Products({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}) {
+  const page = parseInt(searchParams.page ?? "1");
+  const products = await dataProvider.getProducts(page, 100, 500, "price");
 
   return (
     <div>
@@ -19,11 +20,10 @@ export default function Products() {
           <div className="product-filters-container">
             <p id="sort-by-button">Sort By</p>
             <p id="price-filter-button">Filter</p>
+
             <svg
-              style={{
-                marginLeft: "32px",
-              }}
-              width="1  "
+              style={{ marginLeft: "32px" }}
+              width="1"
               height="15"
               viewBox="0 0 1 15"
               fill="none"
@@ -38,13 +38,14 @@ export default function Products() {
               />
             </svg>
 
-            <div id="showing-results-text">Showing - of ... results</div>
+            <div id="showing-results-text">
+              Showing {products.meta.from} - {products.meta.to} of{" "}
+              {products.meta.total} results
+            </div>
           </div>
         </div>
 
-        <Suspense fallback={<h2>Loading...</h2>}>
-          <ProductList products={products} setPage={setPage} page={page} />
-        </Suspense>
+        <ProductList products={products} page={page} />
       </main>
     </div>
   );
