@@ -21,7 +21,7 @@ export const dataProvider = {
       .then(function (data) {
         if (data.user && !data.errors) {
           localStorage.setItem("redseam-username", data.user.username);
-          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-email", data.user.email);
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
@@ -68,7 +68,7 @@ export const dataProvider = {
       .then((data) => {
         if (data.user && !data.errors) {
           localStorage.setItem("redseam-username", data.user.username);
-          localStorage.setItem("redseam-email", data.user.username);
+          localStorage.setItem("redseam-email", data.user.email);
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
