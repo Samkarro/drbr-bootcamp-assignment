@@ -71,6 +71,13 @@
   font-size: 14px;
 }
 
+.cart-item-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 13px;
+}
+
 .cart-item-remover {
   font-size: 12px;
   color: var(--redseam-silver-blue);

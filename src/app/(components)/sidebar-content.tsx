@@ -80,7 +80,7 @@ export default function SidebarContent({
               <img src={item.cover_image} />
               <div className="cart-item-info">
                 <div className="cart-item-info-top-text">
-                  <p>{item.name}</p>
+                  <p style={{ width: "285px" }}>{item.name}</p>
                   <p style={{ fontSize: "18px" }}>$ {item.price}</p>
                 </div>
                 <p>{item.color}</p>
