@@ -65,6 +65,13 @@ export default function SidebarContent({
     }
   };
 
+  const subtotal = cart.reduce(
+    (sum: number, item: any) => sum + item.price * item.quantity,
+    0
+  );
+  const delivery = 5;
+  const total = subtotal + delivery;
+
   return (
     <div>
       {cart?.length ? (
@@ -150,6 +157,18 @@ export default function SidebarContent({
           </div>
         </div>
       )}
+      <div className="totals-container">
+        <div className="totals-labels">
+          <p className="totals-small">Items subtotal</p>
+          <p className="totals-small">Delivery</p>
+          <p className="totals-big">Total</p>
+        </div>
+        <div className="totals-prices">
+          <p className="totals-small">$ {subtotal}</p>
+          <p className="totals-small">$ {delivery}</p>
+          <p className="totals-big">$ {total}</p>
+        </div>
+      </div>
     </div>
   );
 }

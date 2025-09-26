@@ -113,3 +113,33 @@
   color: var(--redseam-mid-gray);
   pointer-events: none;
 }
+
+.totals-container {
+  display: flex;
+  justify-content: space-between;
+  height: 110px;
+}
+
+.totals-prices {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  height: 100%;
+}
+
+.totals-labels {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  height: 100%;
+}
+
+.totals-small {
+  color: var(--redseam-silver-blue);
+  font-size: 16px;
+}
+
+.totals-big {
+  font-size: 20px;
+  font-weight: 500;
+}
