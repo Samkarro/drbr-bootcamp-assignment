@@ -102,9 +102,7 @@
   justify-content: center;
 }
 
-.decrease-quantity-button.disabled,
-.increase-quantity-button.disabled {
+.disabled {
   color: var(--redseam-mid-gray);
   pointer-events: none;
-  cursor: not-allowed;
 }

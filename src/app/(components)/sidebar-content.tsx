@@ -38,14 +38,30 @@ export default function SidebarContent({
     );
   }
 
-  const handleRemove = async (productId: number) => {
+  const handleRemove = async (id: number) => {
     if (!token) return;
     try {
-      await dataProvider.removeFromCart(productId, token);
+      await dataProvider.removeFromCart(id, token);
 
-      setCart((prev: any) => prev.filter((item: any) => item.id !== productId));
+      setCart((prev: any) => prev.filter((item: any) => item.id !== id));
     } catch (err) {
       console.log("Failed to remove product:", err);
+    }
+  };
+
+  const handleUpdateQuantity = async (id: number, newQuantity: number) => {
+    if (!token) return;
+
+    try {
+      await dataProvider.updateCart(id, newQuantity, token);
+
+      setCart((prev: any) =>
+        prev.map((item: any) =>
+          item.id === id ? { ...item, quantity: newQuantity } : item
+        )
+      );
+    } catch (err) {
+      console.log("Failed to update product quantity:", err);
     }
   };
 
@@ -72,6 +88,11 @@ export default function SidebarContent({
                 <div className="cart-item-controls">
                   <div className="quantity-editor-container">
                     <svg
+                      onClick={() => {
+                        if (item.quantity > 1) {
+                          handleUpdateQuantity(item.id, item.quantity - 1);
+                        }
+                      }}
                       className={`decrease-quantity-button ${
                         item.quantity <= 1 ? "disabled" : "clickable"
                       }`}
@@ -83,11 +104,16 @@ export default function SidebarContent({
                     >
                       <path
                         d="M3.75 7.75C3.33579 7.75 3 8.08579 3 8.5C3 8.91421 3.33579 9.25 3.75 9.25L12.25 9.25C12.6642 9.25 13 8.91421 13 8.5C13 8.08579 12.6642 7.75 12.25 7.75H3.75Z"
-                        fill="#E1DFE1"
+                        fill={`${item.quantity <= 1 ? "#E1DFE1" : "#3E424A"}`}
                       />
                     </svg>
                     <p className="quantity-number">{item.quantity}</p>
                     <svg
+                      onClick={() => {
+                        if (item.quantity < 10) {
+                          handleUpdateQuantity(item.id, item.quantity + 1);
+                        }
+                      }}
                       className={`increase-quantity-button ${
                         item.quantity >= 10 ? "disabled" : "clickable"
                       }`}
@@ -99,7 +125,7 @@ export default function SidebarContent({
                     >
                       <path
                         d="M8.75 4.25C8.75 3.83579 8.41421 3.5 8 3.5C7.58579 3.5 7.25 3.83579 7.25 4.25V7.75H3.75C3.33579 7.75 3 8.08579 3 8.5C3 8.91421 3.33579 9.25 3.75 9.25L7.25 9.25V12.75C7.25 13.1642 7.58579 13.5 8 13.5C8.41421 13.5 8.75 13.1642 8.75 12.75V9.25L12.25 9.25C12.6642 9.25 13 8.91421 13 8.5C13 8.08579 12.6642 7.75 12.25 7.75H8.75V4.25Z"
-                        fill="#3E424A"
+                        fill={item.quantity >= 10 ? "#E1DFE1" : "#3E424A"}
                       />
                     </svg>
                   </div>

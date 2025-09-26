@@ -191,4 +191,25 @@ export const dataProvider = {
       console.log(err);
     });
   },
+
+  updateCart: async (
+    productId: number,
+    quantity: number,
+    token: string | null
+  ) => {
+    const response = await fetch(
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${productId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ quantity }),
+      }
+    );
+
+    return response.json();
+  },
 };
