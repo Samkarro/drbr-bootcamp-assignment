@@ -31,7 +31,9 @@
 
 /* CART ITEM */
 .cart-item {
-  width: 460px;
+  width: 100%;
+  max-width: 460px;
+
   height: 134px;
   margin-bottom: 36px;
   display: flex;
@@ -118,6 +120,7 @@
   display: flex;
   justify-content: space-between;
   height: 110px;
+  margin-bottom: 110px;
 }
 
 .totals-prices {

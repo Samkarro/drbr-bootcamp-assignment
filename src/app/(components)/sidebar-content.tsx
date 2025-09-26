@@ -1,6 +1,7 @@
 "use client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { dataProvider } from "../data-provider";
+import { useRouter } from "next/navigation";
 
 export default function SidebarContent({
   token,
@@ -10,6 +11,7 @@ export default function SidebarContent({
   setAmt: Dispatch<SetStateAction<number>>;
 }) {
   const [cart, setCart] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (!token) return;
@@ -78,7 +80,7 @@ export default function SidebarContent({
         <div
           style={{
             overflow: "scroll",
-            height: "700px",
+            height: "540px",
             padding: "1px 1px 1px 1px",
           }}
         >
@@ -169,6 +171,13 @@ export default function SidebarContent({
           <p className="totals-big">$ {total}</p>
         </div>
       </div>
+      <button
+        className="cta-button"
+        onClick={() => router.push("/checkout")}
+        style={{ width: "460px", height: "59px", marginBottom: "40px" }}
+      >
+        Go to checkout
+      </button>
     </div>
   );
 }
