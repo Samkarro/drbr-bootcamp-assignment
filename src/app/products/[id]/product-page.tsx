@@ -58,6 +58,8 @@ export default function ProductPage({
     product.available_sizes[0] ?? null
   );
 
+  const [selectedQuantity, setSelectedQuantity] = useState(3);
+
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
@@ -66,7 +68,13 @@ export default function ProductPage({
 
   const addToCart = () => {
     dataProvider
-      .addToCart(product.id, selectedColor, 1, selectedSize, token)
+      .addToCart(
+        product.id,
+        selectedColor,
+        selectedQuantity,
+        selectedSize,
+        token
+      )
       .then(() => router.push("/products"));
   };
 
@@ -136,7 +144,10 @@ export default function ProductPage({
             </div>
             <div className="quantity-picker-container">
               <p className="option-label">Quantity</p>
-              <CustomSelect></CustomSelect>
+              <CustomSelect
+                value={selectedQuantity}
+                onChange={setSelectedQuantity}
+              ></CustomSelect>
             </div>
           </div>
           <button

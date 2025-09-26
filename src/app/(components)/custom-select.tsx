@@ -3,9 +3,14 @@ import { useState } from "react";
 
 const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-export default function CustomSelect() {
+export default function CustomSelect({
+  value,
+  onChange,
+}: {
+  value: number;
+  onChange: (val: number) => void;
+}) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(options[0]);
 
   return (
     <div className="select-wrapper">
@@ -25,7 +30,7 @@ export default function CustomSelect() {
               key={opt}
               className="select-option"
               onClick={() => {
-                setValue(opt);
+                onChange(opt);
                 setOpen(false);
               }}
             >
