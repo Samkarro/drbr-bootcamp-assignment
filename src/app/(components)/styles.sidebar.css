@@ -29,6 +29,31 @@
   font-weight: 500;
 }
 
+.empty-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  height: 400px;
+}
+
+.cart-empty-image {
+  width: 170px;
+  height: 135px;
+  object-fit: contain;
+}
+
+.oops-text {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.cart-empty-message {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
 /* CART ITEM */
 .cart-item {
   width: 100%;

@@ -38,7 +38,11 @@ export default function Sidebar({
             />
           </svg>
         </div>
-        <SidebarContent token={token} setAmt={setAmt} />
+        <SidebarContent
+          token={token}
+          setAmt={setAmt}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
       </div>
     </>
   );

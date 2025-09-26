@@ -6,9 +6,11 @@ import { useRouter } from "next/navigation";
 export default function SidebarContent({
   token,
   setAmt,
+  setIsSidebarOpen,
 }: {
   token: string | null;
   setAmt: Dispatch<SetStateAction<number>>;
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   const [cart, setCart] = useState<any>(null);
   const router = useRouter();
@@ -27,14 +29,19 @@ export default function SidebarContent({
 
   if (!cart) {
     return (
-      <div className="empty-cart-container">
-        <div className="cart-image-container">
-          <img
-            src={"/images/big-cart.png"}
-            style={{ width: "120.12", height: "97.79" }}
-          />
-        </div>
-      </div>
+      <p
+        style={{
+          marginTop: "300px",
+          color: "var(--redseam-mid-gray)",
+          fontSize: "90px",
+          fontWeight: "600",
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        ...
+      </p>
     );
   }
 
@@ -171,11 +178,19 @@ export default function SidebarContent({
       ) : (
         <div className="empty-cart-container">
           <div className="cart-image-container">
-            <img
-              src={"/images/big-cart.png"}
-              style={{ width: "120.12", height: "97.79" }}
-            />
+            <img className="cart-empty-image" src={"/images/big-cart.png"} />
           </div>
+          <h2 className="oops-text">Ooops!</h2>
+          <p className="cart-empty-message">
+            You've got nothing in your cart yet...
+          </p>
+          <button
+            className="cta-button"
+            style={{ width: "214px", height: "41px", marginTop: "58px" }}
+            onClick={() => setIsSidebarOpen(false)}
+          >
+            Start shopping
+          </button>
         </div>
       )}
     </div>
