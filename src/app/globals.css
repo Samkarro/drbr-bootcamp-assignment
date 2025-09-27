@@ -90,10 +90,12 @@ h1 {
   width: 70px;
   height: 52px;
   font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
 }
 
 .select-trigger {
-  width: 100%;
+  width: 70px;
+  height: 42px;
   padding: 8px 12px;
   text-align: left;
   background: white;
@@ -101,6 +103,7 @@ h1 {
   border-radius: 10px;
   cursor: pointer;
   font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
 }
 
 .select-trigger .arrow {
@@ -130,6 +133,10 @@ h1 {
 
 .select-option:hover {
   background: var(--redseam-light-gray);
+}
+
+.select-option.selected {
+  font-weight: 600;
 }
 
 hr {

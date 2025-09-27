@@ -147,7 +147,9 @@ export default function ProductPage({
             </div>
 
             <div className="quantity-picker-container">
-              <p className="option-label">Quantity</p>
+              <p className="option-label" style={{ marginBottom: "16px" }}>
+                Quantity
+              </p>
               <CustomSelect
                 value={selectedQuantity}
                 onChange={setSelectedQuantity}
