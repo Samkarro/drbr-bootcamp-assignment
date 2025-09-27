@@ -49,3 +49,48 @@
   overflow: hidden;
   object-position: 15% 0%;
 }
+
+/* Profile picture upload */
+
+.profile-upload-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 46px;
+  width: 554px;
+}
+
+.profile-picture-frame {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--redseam-mid-gray);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+}
+
+.profile-picture-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-avatar {
+  font-size: 36px;
+  color: var(--redseam-mid-gray);
+}
+
+.profile-upload-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.upload-btn,
+.remove-btn {
+  font-size: 14px;
+  color: var(--redseam-silver-blue);
+}

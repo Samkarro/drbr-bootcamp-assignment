@@ -22,6 +22,9 @@ export const dataProvider = {
         if (data.user && !data.errors) {
           localStorage.setItem("redseam-username", data.user.username);
           localStorage.setItem("redseam-email", data.user.email);
+          if (data.user.profile_photo) {
+            localStorage.setItem("redseam-pfp", data.user.profile_photo);
+          }
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
@@ -36,43 +39,44 @@ export const dataProvider = {
   },
 
   register: async (
-    avatar: string | null | BinaryType,
+    avatar: File | null,
     email: string,
     password: string,
     password_confirmation: string,
     username: string
   ) => {
-    const formData = JSON.stringify({
-      avatar,
-      email,
-      password,
-      password_confirmation,
-      username,
-    });
-    console.log(formData);
+    const formData = new FormData();
+
+    if (avatar) {
+      formData.append("avatar", avatar);
+    }
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("password_confirmation", password_confirmation);
+    formData.append("username", username);
 
     const response = await fetch(
       "https://api.redseam.redberryinternship.ge/api/register",
       {
         method: "POST",
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: formData,
       }
     )
-      .then((res) => {
-        return res.json();
-      })
+      .then((res) => res.json())
       .then((data) => {
         if (data.user && !data.errors) {
           localStorage.setItem("redseam-username", data.user.username);
           localStorage.setItem("redseam-email", data.user.email);
+          if (data.user.profile_photo) {
+            localStorage.setItem("redseam-pfp", data.user.profile_photo);
+          }
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");
         } else if (data.errors) {
-          throw Error(data.errors);
+          throw Error(JSON.stringify(data.errors));
         } else {
           throw Error(data.message);
         }
