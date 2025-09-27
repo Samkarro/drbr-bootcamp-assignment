@@ -90,9 +90,22 @@ export const dataProvider = {
       });
   },
 
-  getProducts: async (page: number, from: number, to: number, sort: string) => {
+  getProducts: async (
+    page: number,
+    from?: number,
+    to?: number,
+    sort?: string
+  ) => {
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+
+    if (from !== undefined)
+      params.append("filter[price_from]", from.toString());
+    if (to !== undefined) params.append("filter[price_to]", to.toString());
+    if (sort) params.append("sort", sort);
+
     const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/products?page=${page}&filter%5Bprice_from%5D=${from}&filter%5Bprice_to%5D=${to}&sort=${sort}`,
+      `https://api.redseam.redberryinternship.ge/api/products?${params.toString()}`,
       {
         method: "GET",
         headers: {
@@ -101,15 +114,11 @@ export const dataProvider = {
         },
       }
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        return data;
-      })
+      .then((res) => res.json())
       .catch((err) => {
         console.log(err.message);
       });
+
     return response;
   },
 
@@ -128,6 +137,7 @@ export const dataProvider = {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         return data;
       })
       .catch((err) => {

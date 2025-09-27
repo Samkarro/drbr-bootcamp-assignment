@@ -256,3 +256,62 @@
   height: 82px;
   justify-content: space-between;
 }
+
+/* Sorter */
+
+.sorter-wrapper {
+  position: relative;
+  min-width: 80px;
+  height: 24px;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
+  margin-left: 32px;
+}
+
+.sorter-trigger {
+  min-width: 80px;
+  height: 24px;
+  text-align: left;
+  background: none;
+  transition: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: Poppins, Arial, sans-serif;
+  font-size: 16px;
+}
+
+.sorter-trigger .arrow {
+  padding-top: 1px;
+  float: right;
+}
+
+.sorter-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0%;
+  width: 223px;
+  height: 184px;
+  margin: 4px 0 0 0;
+  padding: 8px;
+  list-style: none;
+  background: white;
+  border: 1px solid var(--redseam-mid-gray);
+  border-radius: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sorter-option {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.sorter-option:hover {
+  background: var(--redseam-light-gray);
+}
+
+.sorter-option.selected {
+  font-weight: 600;
+}
