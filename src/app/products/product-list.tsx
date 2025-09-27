@@ -35,9 +35,33 @@ export default function ProductList({
   const router = useRouter();
 
   const changepage = (num: number) => {
-    if (num < 1 || num > products.meta.links.length - 2) return;
+    const totalPages = products.meta.links.length - 2;
+    if (num < 1 || num > totalPages) return;
     router.push(`/products?page=${num}`);
   };
+
+  const getVisiblePages = () => {
+    const total = products.meta.links.length - 2;
+    const current = page;
+    const delta = 1;
+    const pages: (number | string)[] = [];
+
+    for (let i = 1; i <= total; i++) {
+      if (
+        i === 1 ||
+        i === total ||
+        (i >= current - delta && i <= current + delta)
+      ) {
+        pages.push(i);
+      } else if (pages[pages.length - 1] !== "...") {
+        pages.push("...");
+      }
+    }
+
+    return pages;
+  };
+
+  const visiblePages = getVisiblePages();
 
   return (
     <div className="products-container">
@@ -53,9 +77,9 @@ export default function ProductList({
         ))}
       </div>
 
-      <div className="page-nav-container">
+      <div className="page-nav-container flex items-center gap-2 mt-4">
         <div
-          className="page-nav-prev-next"
+          className="page-nav-prev-next cursor-pointer p-2 hover:bg-gray-100 rounded"
           onClick={() => changepage(page - 1)}
         >
           <svg
@@ -74,34 +98,38 @@ export default function ProductList({
           </svg>
         </div>
 
-        {products.meta.links.map((link, i) => {
-          if (i === 0 || i === products.meta.links.length - 1) return null;
-
-          return (
+        {visiblePages.map((p, idx) =>
+          p === "..." ? (
             <div
-              style={
-                link.active
-                  ? { outline: "1px solid #FF4000" }
-                  : { outline: "1px solid #F8F6F7" }
-              }
-              key={link.label}
-              className="page-nav-button"
-              onClick={() => changepage(parseInt(link.label))}
+              key={`dots-${idx}`}
+              className="page-nav-button cursor-default p-2"
+              style={{ outline: "1px solid #F8F6F7", borderRadius: "4px" }}
+            >
+              <p style={{ color: "#3E424A", opacity: 0.6 }}>...</p>
+            </div>
+          ) : (
+            <div
+              key={`page-${p}`}
+              className="page-nav-button cursor-pointer p-2 rounded"
+              onClick={() => changepage(Number(p))}
+              style={{
+                outline: p === page ? "1px solid #FF4000" : "1px solid #F8F6F7",
+              }}
             >
               <p
-                style={
-                  link.active
-                    ? { color: "#FF4000" }
-                    : { color: "#3E424A", opacity: "60%" }
-                }
+                style={{
+                  color: p === page ? "#FF4000" : "#3E424A",
+                  opacity: p === page ? 1 : 0.6,
+                }}
               >
-                {link.label}
+                {p}
               </p>
             </div>
-          );
-        })}
+          )
+        )}
+
         <div
-          className="page-nav-prev-next"
+          className="page-nav-prev-next cursor-pointer p-2 hover:bg-gray-100 rounded"
           onClick={() => changepage(page + 1)}
         >
           <svg
