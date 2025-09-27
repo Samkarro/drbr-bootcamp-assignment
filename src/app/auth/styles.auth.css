@@ -50,6 +50,20 @@
   object-position: 15% 0%;
 }
 
+.input-with-icon {
+  position: relative;
+}
+.input-with-icon input {
+  padding-right: 38px;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 11px;
+  top: 32%;
+  transform: translateY(-50%);
+}
+
 /* Profile picture upload */
 
 .profile-upload-container {
