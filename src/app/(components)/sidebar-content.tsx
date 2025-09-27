@@ -92,7 +92,9 @@ export default function SidebarContent({
           >
             {cart.map((item: any) => (
               <div key={item.id} className="cart-item">
-                <img src={item.cover_image} />
+                <img
+                  src={item.images[item.available_colors.indexOf(item.color)]}
+                />
                 <div className="cart-item-info">
                   <div className="cart-item-info-top-text">
                     <p style={{ width: "285px" }}>{item.name}</p>

@@ -50,14 +50,12 @@ export default function ProductPage({
     Olive: "#808000",
   };
 
-  const [selectedColor, setSelectedColor] = useState<string>(
-    product.available_colors[0] ?? null
-  );
+  // track index instead of separate color/image
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
     product.available_sizes[0] ?? null
   );
-
   const [selectedQuantity, setSelectedQuantity] = useState(3);
 
   const router = useRouter();
@@ -70,7 +68,7 @@ export default function ProductPage({
     dataProvider
       .addToCart(
         product.id,
-        selectedColor,
+        product.available_colors[selectedIndex],
         selectedQuantity,
         selectedSize,
         token
@@ -81,25 +79,28 @@ export default function ProductPage({
   return (
     <div className="product-info-container">
       <div className="all-product-pictures-container">
-        {product.images.map((image) => {
-          if (image !== product.images[0]) {
+        {product.images.map((image, i) => {
+          if (i !== selectedIndex) {
             return (
               <img
                 key={image}
-                className="small-side-product-image"
+                className="small-side-product-image clickable"
                 src={image}
                 alt={product.name}
+                onClick={() => setSelectedIndex(i)}
               />
             );
           }
         })}
       </div>
+
       <div className="product-info-main-section">
         <img
           className="product-details-image"
-          src={product.cover_image}
+          src={product.images[selectedIndex]}
           alt={product.name}
         />
+
         <div className="product-details-container">
           <p
             className="product-name-and-pricing"
@@ -111,16 +112,18 @@ export default function ProductPage({
 
           <div className="product-form">
             <div className="color-picker-container">
-              <p className="option-label">Color: {selectedColor}</p>
+              <p className="option-label">
+                Color: {product.available_colors[selectedIndex]}
+              </p>
               <div style={{ display: "flex", columnGap: "18px" }}>
-                {product.available_colors.map((color) => (
+                {product.available_colors.map((color, i) => (
                   <div
                     key={color}
                     className={`product-color ${
-                      selectedColor === color ? "product-color-active" : ""
+                      selectedIndex === i ? "product-color-active" : ""
                     }`}
                     style={{ background: colorMap[color] }}
-                    onClick={() => setSelectedColor(color)}
+                    onClick={() => setSelectedIndex(i)}
                   />
                 ))}
               </div>
@@ -142,14 +145,16 @@ export default function ProductPage({
                 ))}
               </div>
             </div>
+
             <div className="quantity-picker-container">
               <p className="option-label">Quantity</p>
               <CustomSelect
                 value={selectedQuantity}
                 onChange={setSelectedQuantity}
-              ></CustomSelect>
+              />
             </div>
           </div>
+
           <button
             className="cta-button"
             onClick={addToCart}
@@ -181,7 +186,9 @@ export default function ProductPage({
             </svg>
             Add to cart
           </button>
+
           <hr style={{ margin: "56px 0px 56px 0px" }} />
+
           <div className="product-description-container">
             <div className="logo-detail-container">
               <h2>Details</h2>
