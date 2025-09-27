@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ProductCard from "../(components)/product-card";
 
 export default function ProductList({
@@ -32,12 +32,17 @@ export default function ProductList({
   };
   page: number;
 }) {
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   const changepage = (num: number) => {
     const totalPages = products.meta.links.length - 2;
     if (num < 1 || num > totalPages) return;
-    router.push(`/products?page=${num}`);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", num.toString());
+
+    router.push(`/products?${params.toString()}`);
   };
 
   const getVisiblePages = () => {
