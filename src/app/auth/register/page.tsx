@@ -50,7 +50,6 @@ export default function Register() {
         />
         <div className="auth-page-form-container">
           <h1 style={{ width: "544px", marginBottom: "48px" }}>Register</h1>
-
           <div className="profile-upload-container">
             <div className="profile-picture-frame">
               {previewUrl ? (

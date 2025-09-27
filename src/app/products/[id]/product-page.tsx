@@ -50,7 +50,6 @@ export default function ProductPage({
     Olive: "#808000",
   };
 
-  // track index instead of separate color/image
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const [selectedSize, setSelectedSize] = useState<string | null>(
@@ -87,6 +86,7 @@ export default function ProductPage({
                 className="small-side-product-image clickable"
                 src={image}
                 alt={product.name}
+                style={{ marginBottom: "9px" }}
                 onClick={() => setSelectedIndex(i)}
               />
             );

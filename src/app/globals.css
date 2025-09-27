@@ -51,6 +51,11 @@ header {
   cursor: pointer;
 }
 
+.header-cart-container {
+  display: flex;
+  align-items: center;
+}
+
 a {
   text-decoration: none;
   color: var(--redseam-orange);

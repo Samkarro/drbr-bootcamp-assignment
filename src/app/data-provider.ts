@@ -24,6 +24,8 @@ export const dataProvider = {
           localStorage.setItem("redseam-email", data.user.email);
           if (data.user.avatar) {
             localStorage.setItem("redseam-pfp", data.user.avatar);
+          } else {
+            localStorage.setItem("redseam-pfp", "");
           }
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");
@@ -72,6 +74,8 @@ export const dataProvider = {
           localStorage.setItem("redseam-email", data.user.email);
           if (data.user.avatar) {
             localStorage.setItem("redseam-pfp", data.user.avatar);
+          } else {
+            localStorage.setItem("redseam-pfp", "");
           }
           localStorage.setItem("redseam-token", data.token);
           redirect("/products");

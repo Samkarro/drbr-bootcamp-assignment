@@ -54,7 +54,6 @@ export default function ProductList({
       </div>
 
       <div className="page-nav-container">
-        {/* Prev button */}
         <div
           className="page-nav-prev-next"
           onClick={() => changepage(page - 1)}
@@ -75,7 +74,6 @@ export default function ProductList({
           </svg>
         </div>
 
-        {/* Page numbers */}
         {products.meta.links.map((link, i) => {
           if (i === 0 || i === products.meta.links.length - 1) return null;
 
@@ -102,8 +100,6 @@ export default function ProductList({
             </div>
           );
         })}
-
-        {/* Next button */}
         <div
           className="page-nav-prev-next"
           onClick={() => changepage(page + 1)}
