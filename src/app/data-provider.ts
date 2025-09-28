@@ -221,7 +221,7 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ quantity, color, size }), // 👈 send color & size
+        body: JSON.stringify({ quantity, color, size }),
       }
     );
 

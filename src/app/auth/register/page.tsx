@@ -141,7 +141,7 @@ export default function Register() {
             className={`auth-text-input username ${
               usernameError ? "input-validation-error" : ""
             }`}
-            placeholder="Username"
+            placeholder="Username *"
             required
           />
 
@@ -150,7 +150,7 @@ export default function Register() {
             className={`auth-text-input email ${
               emailError ? "input-validation-error" : ""
             }`}
-            placeholder="Email"
+            placeholder="Email *"
             required
           />
 
@@ -188,7 +188,7 @@ export default function Register() {
               className={`auth-text-input password ${
                 passwordError ? "input-validation-error" : ""
               }`}
-              placeholder="Password"
+              placeholder="Password *"
               type={showPassword ? "text" : "password"}
               required
             />
@@ -229,7 +229,7 @@ export default function Register() {
               className={`auth-text-input password-confirmation ${
                 passwordConfirmationError ? "input-validation-error" : ""
               }`}
-              placeholder="Confirm password"
+              placeholder="Confirm password *"
               type={showConfirmPassword ? "text" : "password"}
               style={{ marginBottom: "0px" }}
               required

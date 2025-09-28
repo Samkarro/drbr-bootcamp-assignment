@@ -80,7 +80,7 @@ export default function Filter() {
           <div className="filter-inputs-container">
             <input
               className="filter-input"
-              placeholder="From"
+              placeholder="From *"
               value={priceFrom}
               onChange={(e) => {
                 const onlyNums = e.target.value.replace(/\D/g, "");
@@ -90,7 +90,7 @@ export default function Filter() {
             />
             <input
               className="filter-input"
-              placeholder="To"
+              placeholder="To *"
               value={priceTo}
               onChange={(e) => {
                 const onlyNums = e.target.value.replace(/\D/g, "");

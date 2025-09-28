@@ -66,7 +66,7 @@ export default function Login() {
             className={`auth-text-input email ${
               emailError ? "input-validation-error" : ""
             }`}
-            placeholder="Email"
+            placeholder="Email *"
             required
           ></input>
           <div className="input-with-icon">
@@ -104,7 +104,7 @@ export default function Login() {
               className={`auth-text-input password ${
                 passwordError ? "input-validation-error" : ""
               }`}
-              placeholder="Password"
+              placeholder="Password *"
               type={showPassword ? "text" : "password"}
               style={{ marginBottom: "0px" }}
               required
