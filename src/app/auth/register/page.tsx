@@ -251,9 +251,11 @@ export default function Register() {
             >
               Register
             </button>
-            <p>
-              Already a member? <a href="/auth/login">Log in</a>
-            </p>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <p>
+                Already a member? <a href="/auth/login">Log in</a>
+              </p>
+            </div>
           </div>
         </div>
       </main>
