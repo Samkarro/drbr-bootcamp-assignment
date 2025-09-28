@@ -1,6 +1,7 @@
 "use client";
 
 import CustomSelect from "@/app/(components)/custom-select";
+import Sidebar from "@/app/(components)/sidebar";
 import { dataProvider } from "@/app/data-provider";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -59,6 +60,8 @@ export default function ProductPage({
 
   const router = useRouter();
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
   useEffect(() => {
     setToken(localStorage.getItem("redseam-token"));
   }, []);
@@ -72,7 +75,7 @@ export default function ProductPage({
         selectedSize,
         token
       )
-      .then(() => router.push("/products"));
+      .then(() => setIsSidebarOpen(true));
   };
 
   return (
@@ -93,7 +96,9 @@ export default function ProductPage({
           }
         })}
       </div>
-
+      {isSidebarOpen && (
+        <Sidebar token={token} setIsSidebarOpen={setIsSidebarOpen} />
+      )}
       <div className="product-info-main-section">
         <img
           className="product-details-image"
