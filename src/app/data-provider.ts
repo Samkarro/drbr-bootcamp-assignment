@@ -2,89 +2,97 @@ import { redirect, unauthorized } from "next/navigation";
 
 export const dataProvider = {
   login: async (email: string, password: string) => {
-    const formData = JSON.stringify({ email, password });
-
-    const response = await fetch(
-      "https://api.redseam.redberryinternship.ge/api/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: formData,
-      }
-    )
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (data) {
-        if (data.user && !data.errors) {
-          localStorage.setItem("redseam-username", data.user.username);
-          localStorage.setItem("redseam-email", data.user.email);
-          localStorage.setItem("redseam-token", data.token);
-          redirect("/products");
-        } else if (data.errors) {
-          throw Error(data.errors);
-        } else {
-          throw Error(data.message);
+    try {
+      const response = await fetch(
+        "https://api.redseam.redberryinternship.ge/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({ email, password }),
         }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.user) {
+        localStorage.setItem("redseam-username", data.user.username);
+        localStorage.setItem("redseam-email", data.user.email);
+        localStorage.setItem("redseam-pfp", data.user.avatar || "");
+        localStorage.setItem("redseam-token", data.token);
+
+        return { success: true, data };
+      } else {
+        return { success: false, data };
+      }
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
   },
 
   register: async (
-    avatar: string | null | BinaryType,
+    avatar: File | null,
     email: string,
     password: string,
     password_confirmation: string,
     username: string
   ) => {
-    const formData = JSON.stringify({
-      avatar,
-      email,
-      password,
-      password_confirmation,
-      username,
-    });
-    console.log(formData);
+    try {
+      const formData = new FormData();
 
-    const response = await fetch(
-      "https://api.redseam.redberryinternship.ge/api/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: formData,
-      }
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (data.user && !data.errors) {
-          localStorage.setItem("redseam-username", data.user.username);
-          localStorage.setItem("redseam-email", data.user.email);
-          localStorage.setItem("redseam-token", data.token);
-          redirect("/products");
-        } else if (data.errors) {
-          throw Error(data.errors);
-        } else {
-          throw Error(data.message);
+      if (avatar) formData.append("avatar", avatar);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("password_confirmation", password_confirmation);
+      formData.append("username", username);
+
+      const response = await fetch(
+        "https://api.redseam.redberryinternship.ge/api/register",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.user) {
+        localStorage.setItem("redseam-username", data.user.username);
+        localStorage.setItem("redseam-email", data.user.email);
+        localStorage.setItem("redseam-pfp", data.user.avatar || "");
+        localStorage.setItem("redseam-token", data.token);
+
+        return { success: true, data };
+      } else {
+        return { success: false, data };
+      }
+    } catch (err: any) {
+      let newErrorMessage = err.message + " Check if photo is over 1mb.";
+      return { success: false, error: newErrorMessage };
+    }
   },
 
-  getProducts: async (page: number, from: number, to: number, sort: string) => {
+  getProducts: async (
+    page: number,
+    from?: number,
+    to?: number,
+    sort?: string
+  ) => {
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+
+    if (from !== undefined)
+      params.append("filter[price_from]", from.toString());
+    if (to !== undefined) params.append("filter[price_to]", to.toString());
+    if (sort) params.append("sort", sort);
+
     const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/products?page=${page}&filter%5Bprice_from%5D=${from}&filter%5Bprice_to%5D=${to}&sort=${sort}`,
+      `https://api.redseam.redberryinternship.ge/api/products?${params.toString()}`,
       {
         method: "GET",
         headers: {
@@ -93,15 +101,11 @@ export const dataProvider = {
         },
       }
     )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        return data;
-      })
+      .then((res) => res.json())
       .catch((err) => {
         console.log(err.message);
       });
+
     return response;
   },
 
@@ -120,6 +124,7 @@ export const dataProvider = {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         return data;
       })
       .catch((err) => {
@@ -176,9 +181,14 @@ export const dataProvider = {
     });
   },
 
-  removeFromCart: async (product: number, token: string | null) => {
+  removeFromCart: async (
+    productId: number,
+    color: string,
+    size: string,
+    token: string | null
+  ) => {
     const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${productId}`,
       {
         method: "DELETE",
         headers: {
@@ -186,15 +196,20 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ color, size }), // 👈 send color & size
       }
     ).catch((err) => {
       console.log(err);
     });
+
+    return response?.ok;
   },
 
   updateCart: async (
     productId: number,
     quantity: number,
+    color: string,
+    size: string,
     token: string | null
   ) => {
     const response = await fetch(
@@ -206,7 +221,7 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ quantity }),
+        body: JSON.stringify({ quantity, color, size }),
       }
     );
 
@@ -221,25 +236,38 @@ export const dataProvider = {
     zip_code: string,
     token: string | null
   ) => {
-    const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart/checkout`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          surname,
-          email,
-          address,
-          zip_code,
-        }),
+    try {
+      if (!token) throw new Error("User not authenticated");
+
+      const response = await fetch(
+        `https://api.redseam.redberryinternship.ge/api/cart/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+            surname,
+            email,
+            address,
+            zip_code,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return { success: true, data };
+      } else {
+        console.log(data.errors);
+        return { success: false, data };
       }
-    ).catch((err) => {
-      console.log(err);
-    });
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
   },
 };

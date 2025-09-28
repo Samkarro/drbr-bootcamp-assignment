@@ -1,14 +1,20 @@
-import { redirect } from "next/navigation";
+"use client";
+import { redirect, useRouter } from "next/navigation";
 
 export default function AuthHeader() {
+  const router = useRouter();
+
   const LoginRedirect = () => {
-    redirect("/auth/login");
+    router.push("/auth/login");
     return;
   };
 
   return (
     <header>
-      <div className="header-logo-container">
+      <div
+        className="header-logo-container clickable"
+        onClick={() => router.push("/products")}
+      >
         <svg
           style={{
             marginRight: "4px",

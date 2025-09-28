@@ -2,15 +2,26 @@ import MainHeader from "../(components)/header-main";
 import { dataProvider } from "../data-provider";
 import "./styles.products.css";
 import ProductList from "./product-list";
+import Sorter from "./sorter";
+import Filter, { ActiveInfo } from "./filter";
 
 export default async function Products({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: { page?: string; sort?: string };
 }) {
   const filters = await searchParams;
   const page = parseInt((await filters.page) ?? "1");
-  const products = await dataProvider.getProducts(page, 1, 5000, "price");
+  const sort = filters.sort ?? "";
+  const priceFrom = parseInt((filters as any)["filter[price_from]"] ?? "0");
+  const priceTo = parseInt((filters as any)["filter[price_to]"] ?? "5000");
+
+  const products = await dataProvider.getProducts(
+    page,
+    priceFrom,
+    priceTo,
+    sort
+  );
 
   return (
     <div>
@@ -19,9 +30,8 @@ export default async function Products({
         <div className="product-filter-bar-container">
           <h1>Products</h1>
           <div className="product-filters-container">
-            <p id="sort-by-button">Sort By</p>
-            <p id="price-filter-button">Filter</p>
-
+            <Sorter />
+            <Filter />
             <svg
               style={{ marginLeft: "32px" }}
               width="1"
@@ -45,6 +55,8 @@ export default async function Products({
             </div>
           </div>
         </div>
+
+        <ActiveInfo />
 
         <ProductList products={products} page={page} />
       </main>

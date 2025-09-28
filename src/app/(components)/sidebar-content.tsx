@@ -45,26 +45,38 @@ export default function SidebarContent({
     );
   }
 
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: number, color: string, size: string) => {
     if (!token) return;
     try {
-      await dataProvider.removeFromCart(id, token);
+      await dataProvider.removeFromCart(id, color, size, token);
 
-      setCart((prev: any) => prev.filter((item: any) => item.id !== id));
+      setCart((prev: any) =>
+        prev.filter(
+          (item: any) =>
+            !(item.id === id && item.color === color && item.size === size)
+        )
+      );
     } catch (err) {
       console.log("Failed to remove product:", err);
     }
   };
 
-  const handleUpdateQuantity = async (id: number, newQuantity: number) => {
+  const handleUpdateQuantity = async (
+    id: number,
+    newQuantity: number,
+    color: string,
+    size: string
+  ) => {
     if (!token) return;
 
     try {
-      await dataProvider.updateCart(id, newQuantity, token);
+      await dataProvider.updateCart(id, newQuantity, color, size, token);
 
       setCart((prev: any) =>
         prev.map((item: any) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
+          item.id === id && item.color === color && item.size === size
+            ? { ...item, quantity: newQuantity }
+            : item
         )
       );
     } catch (err) {
@@ -92,7 +104,9 @@ export default function SidebarContent({
           >
             {cart.map((item: any) => (
               <div key={item.id} className="cart-item">
-                <img src={item.cover_image} />
+                <img
+                  src={item.images[item.available_colors.indexOf(item.color)]}
+                />
                 <div className="cart-item-info">
                   <div className="cart-item-info-top-text">
                     <p style={{ width: "285px" }}>{item.name}</p>
@@ -105,7 +119,12 @@ export default function SidebarContent({
                       <svg
                         onClick={() => {
                           if (item.quantity > 1) {
-                            handleUpdateQuantity(item.id, item.quantity - 1);
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity - 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`decrease-quantity-button ${
@@ -125,12 +144,17 @@ export default function SidebarContent({
                       <p className="quantity-number">{item.quantity}</p>
                       <svg
                         onClick={() => {
-                          if (item.quantity < 10) {
-                            handleUpdateQuantity(item.id, item.quantity + 1);
+                          if (item.quantity < 256) {
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity + 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`increase-quantity-button ${
-                          item.quantity >= 10 ? "disabled" : "clickable"
+                          item.quantity >= 256 ? "disabled" : "clickable"
                         }`}
                         width="16"
                         height="17"
@@ -140,13 +164,15 @@ export default function SidebarContent({
                       >
                         <path
                           d="M8.75 4.25C8.75 3.83579 8.41421 3.5 8 3.5C7.58579 3.5 7.25 3.83579 7.25 4.25V7.75H3.75C3.33579 7.75 3 8.08579 3 8.5C3 8.91421 3.33579 9.25 3.75 9.25L7.25 9.25V12.75C7.25 13.1642 7.58579 13.5 8 13.5C8.41421 13.5 8.75 13.1642 8.75 12.75V9.25L12.25 9.25C12.6642 9.25 13 8.91421 13 8.5C13 8.08579 12.6642 7.75 12.25 7.75H8.75V4.25Z"
-                          fill={item.quantity >= 10 ? "#E1DFE1" : "#3E424A"}
+                          fill={item.quantity >= 256 ? "#E1DFE1" : "#3E424A"}
                         />
                       </svg>
                     </div>
                     <p
                       className="cart-item-remover"
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() =>
+                        handleRemove(item.id, item.color, item.size)
+                      }
                     >
                       Remove
                     </p>
