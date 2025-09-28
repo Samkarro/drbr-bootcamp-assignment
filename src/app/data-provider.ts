@@ -39,47 +39,41 @@ export const dataProvider = {
     password_confirmation: string,
     username: string
   ) => {
-    const formData = new FormData();
+    try {
+      const formData = new FormData();
 
-    if (avatar) {
-      formData.append("avatar", avatar);
-    }
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("password_confirmation", password_confirmation);
-    formData.append("username", username);
+      if (avatar) formData.append("avatar", avatar);
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("password_confirmation", password_confirmation);
+      formData.append("username", username);
 
-    const response = await fetch(
-      "https://api.redseam.redberryinternship.ge/api/register",
-      {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      }
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user && !data.errors) {
-          localStorage.setItem("redseam-username", data.user.username);
-          localStorage.setItem("redseam-email", data.user.email);
-          if (data.user.avatar) {
-            localStorage.setItem("redseam-pfp", data.user.avatar);
-          } else {
-            localStorage.setItem("redseam-pfp", "");
-          }
-          localStorage.setItem("redseam-token", data.token);
-          redirect("/products");
-        } else if (data.errors) {
-          throw Error(JSON.stringify(data.errors));
-        } else {
-          throw Error(data.message);
+      const response = await fetch(
+        "https://api.redseam.redberryinternship.ge/api/register",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Accept: "application/json",
+          },
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data.user) {
+        localStorage.setItem("redseam-username", data.user.username);
+        localStorage.setItem("redseam-email", data.user.email);
+        localStorage.setItem("redseam-pfp", data.user.avatar || "");
+        localStorage.setItem("redseam-token", data.token);
+
+        return { success: true, data };
+      } else {
+        return { success: false, data };
+      }
+    } catch (err: any) {
+      return { success: false, error: err.message };
+    }
   },
 
   getProducts: async (

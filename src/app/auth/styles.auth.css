@@ -117,6 +117,10 @@
   color: var(--redseam-orange);
 }
 
+.error-message-register {
+  bottom: 24.3%;
+}
+
 .input-validation-error {
   border: 1px solid var(--redseam-orange);
 }
