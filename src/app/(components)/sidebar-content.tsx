@@ -97,7 +97,7 @@ export default function SidebarContent({
         <div>
           <div
             style={{
-              overflow: "scroll",
+              overflow: "auto",
               height: "540px",
               padding: "1px 1px 1px 1px",
             }}
