@@ -11,8 +11,7 @@
   width: 972px;
   height: calc(100vh - 80px);
   background-color: white;
-  padding-top: 241px;
-  padding-right: 65px;
+  padding-top: 152px;
 }
 
 .auth-text-input {
@@ -43,11 +42,10 @@
 }
 
 .auth-page-image {
-  width: 948px;
-  height: calc(100vh - 80px);
-  object-fit: none;
-  overflow: hidden;
-  object-position: 15% 0%;
+  width: 948px; /* keep fixed width */
+  height: calc(100vh - 80px); /* set vertical size */
+  object-fit: cover;
+  object-position: top center;
 }
 
 .input-with-icon {
