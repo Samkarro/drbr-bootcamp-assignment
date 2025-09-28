@@ -83,7 +83,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f4f4;
+  background: white;
 }
 
 .profile-picture-frame img {
@@ -93,13 +93,15 @@
 }
 
 .placeholder-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 36px;
   color: var(--redseam-mid-gray);
 }
 
 .profile-upload-buttons {
   display: flex;
-  flex-direction: column;
   gap: 15px;
 }
 
