@@ -160,7 +160,7 @@ export default function ProductPage({
 
           <button
             className="cta-button"
-            onClick={addToCart}
+            onClick={() => (token ? addToCart : router.push("/auth/login"))}
             style={{
               width: "100%",
               height: "59px",

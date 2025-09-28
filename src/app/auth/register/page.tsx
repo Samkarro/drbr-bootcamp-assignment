@@ -152,11 +152,6 @@ export default function Register() {
             placeholder="Email"
             required
           />
-          {registerErrorMessage && (
-            <p className="error-message error-message-register">
-              {registerErrorMessage}
-            </p>
-          )}
 
           <div className="input-with-icon">
             <svg
@@ -206,6 +201,7 @@ export default function Register() {
               onTouchStart={() => setShowConfirmPassword(true)}
               onTouchEnd={() => setShowConfirmPassword(false)}
               className="eye-icon clickable"
+              style={{ top: "50%" }}
               width="20"
               height="20"
               viewBox="0 0 20 20"
@@ -234,14 +230,23 @@ export default function Register() {
               }`}
               placeholder="Confirm password"
               type={showConfirmPassword ? "text" : "password"}
+              style={{ marginBottom: "0px" }}
               required
             />
           </div>
+          <div className="error-container">
+            {registerErrorMessage && (
+              <p className="error-message error-message-register">
+                {registerErrorMessage}
+              </p>
+            )}
+          </div>
+
           <div className="register-actions">
             <button
               className="cta-button"
               onClick={handleRegister}
-              style={{ margin: "22px 0px 24px 0px" }}
+              style={{ margin: "0px 0px 24px 0px" }}
             >
               Register
             </button>

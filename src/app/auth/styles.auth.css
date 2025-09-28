@@ -109,11 +109,12 @@
   color: var(--redseam-silver-blue);
 }
 
+/* Errors */
+
 .error-message {
-  position: absolute;
-  bottom: 43%;
-  left: 61%;
-  font-size: 12px;
+  position: static;
+  font-size: 10px;
+  font-weight: 300;
   color: var(--redseam-orange);
 }
 
@@ -123,4 +124,11 @@
 
 .input-validation-error {
   border: 1px solid var(--redseam-orange);
+}
+
+.error-container {
+  height: 46px;
+  display: flex;
+  width: 554px;
+  padding-left: 10px;
 }

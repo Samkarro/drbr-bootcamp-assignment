@@ -72,7 +72,8 @@ export const dataProvider = {
         return { success: false, data };
       }
     } catch (err: any) {
-      return { success: false, error: err.message };
+      let newErrorMessage = err.message + " Check if photo is over 1mb.";
+      return { success: false, error: newErrorMessage };
     }
   },
 

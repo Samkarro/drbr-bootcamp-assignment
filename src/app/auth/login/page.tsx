@@ -75,6 +75,7 @@ export default function Login() {
               onMouseLeave={() => setShowPassword(false)}
               onTouchStart={() => setShowPassword(true)}
               onTouchEnd={() => setShowPassword(false)}
+              style={{ top: "50%" }}
               className="eye-icon clickable"
               width="20"
               height="20"
@@ -104,17 +105,21 @@ export default function Login() {
               }`}
               placeholder="Password"
               type={showPassword ? "text" : "password"}
+              style={{ marginBottom: "0px" }}
               required
             />
           </div>
-          {loginErrorMessage && (
-            <p className="error-message">{loginErrorMessage}</p>
-          )}
+          <div className="error-container">
+            {loginErrorMessage && (
+              <p className="error-message">{loginErrorMessage}</p>
+            )}
+          </div>
+
           <button
             className="cta-button"
             onClick={(e: any) => handleLogin()}
             style={{
-              margin: "22px 0px 24px 0px",
+              margin: "0px 0px 24px 0px",
             }}
           >
             Log in
