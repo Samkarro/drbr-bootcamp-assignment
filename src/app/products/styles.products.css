@@ -5,7 +5,7 @@
 }
 
 .product-filter-bar-container {
-  margin-top: 72px;
+  margin-top: 152px;
   display: flex;
   justify-content: space-between;
   width: 1720px;
@@ -282,7 +282,7 @@
 
 .sorter-dropdown {
   position: absolute;
-  top: 100%;
+  top: 130%;
   right: 0%;
   width: 223px;
   height: 184px;
@@ -294,7 +294,6 @@
   border-radius: 10px;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1000;
 }
 
 .sorter-option {
@@ -338,7 +337,7 @@
   background: white;
   outline: 1px solid var(--redseam-mid-gray);
   padding: 16px;
-  z-index: 90;
+
   border-radius: 8px;
 }
 

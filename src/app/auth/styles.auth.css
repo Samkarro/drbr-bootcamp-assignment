@@ -12,6 +12,7 @@
   height: calc(100vh - 80px);
   background-color: white;
   padding-top: 152px;
+  margin-top: 80px;
 }
 
 .auth-text-input {

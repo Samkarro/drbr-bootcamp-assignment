@@ -90,6 +90,7 @@ export default function Register() {
       <AuthHeader />
       <main className="auth-main">
         <img
+          style={{ marginTop: "80px" }}
           alt="test"
           className="auth-page-image"
           src={"/images/authpage.png"}

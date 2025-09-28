@@ -19,7 +19,7 @@ export default async function ProductsID({
           style={{
             width: "1720px",
             fontWeight: "300",
-            marginTop: "30px",
+            marginTop: "110px",
             marginBottom: "49px",
           }}
         >
