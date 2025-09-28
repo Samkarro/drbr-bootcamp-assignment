@@ -6,7 +6,7 @@ import "../styles.products.css";
 export default async function ProductsID({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   const newParams = await params;
   const product = await dataProvider.getProduct(newParams.id);

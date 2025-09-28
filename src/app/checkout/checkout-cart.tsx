@@ -17,7 +17,6 @@ export default function CheckoutCart({
     if (!token) return;
     dataProvider.getCart(token).then((data) => {
       setCart(data);
-      console.log(data);
     });
   }, [token]);
 
@@ -39,23 +38,35 @@ export default function CheckoutCart({
     );
   }
 
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: number, color: string, size: string) => {
     if (!token) return;
     try {
-      await dataProvider.removeFromCart(id, token);
-      setCart((prev: any) => prev.filter((item: any) => item.id !== id));
+      await dataProvider.removeFromCart(id, color, size, token);
+      setCart((prev: any) =>
+        prev.filter(
+          (item: any) =>
+            !(item.id === id && item.color === color && item.size === size)
+        )
+      );
     } catch (err) {
       console.log("Failed to remove product:", err);
     }
   };
 
-  const handleUpdateQuantity = async (id: number, newQuantity: number) => {
+  const handleUpdateQuantity = async (
+    id: number,
+    newQuantity: number,
+    color: string,
+    size: string
+  ) => {
     if (!token) return;
     try {
-      await dataProvider.updateCart(id, newQuantity, token);
+      await dataProvider.updateCart(id, newQuantity, color, size, token);
       setCart((prev: any) =>
         prev.map((item: any) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
+          item.id === id && item.color === color && item.size === size
+            ? { ...item, quantity: newQuantity }
+            : item
         )
       );
     } catch (err) {
@@ -82,9 +93,13 @@ export default function CheckoutCart({
             }}
           >
             {cart.map((item: any) => (
-              <div key={item.id} className="cart-item">
+              <div
+                key={`${item.id}-${item.color}-${item.size}`}
+                className="cart-item"
+              >
                 <img
                   src={item.images[item.available_colors.indexOf(item.color)]}
+                  alt={item.name}
                 />
                 <div className="cart-item-info">
                   <div className="cart-item-info-top-text">
@@ -98,7 +113,12 @@ export default function CheckoutCart({
                       <svg
                         onClick={() => {
                           if (item.quantity > 1) {
-                            handleUpdateQuantity(item.id, item.quantity - 1);
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity - 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`decrease-quantity-button ${
@@ -119,7 +139,12 @@ export default function CheckoutCart({
                       <svg
                         onClick={() => {
                           if (item.quantity < 10) {
-                            handleUpdateQuantity(item.id, item.quantity + 1);
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity + 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`increase-quantity-button ${
@@ -139,7 +164,9 @@ export default function CheckoutCart({
                     </div>
                     <p
                       className="cart-item-remover"
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() =>
+                        handleRemove(item.id, item.color, item.size)
+                      }
                     >
                       Remove
                     </p>

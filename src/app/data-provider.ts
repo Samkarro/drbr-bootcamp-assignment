@@ -124,7 +124,6 @@ export const dataProvider = {
         return res.json();
       })
       .then((data) => {
-        console.log(data);
         return data;
       })
       .catch((err) => {
@@ -196,7 +195,7 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ color, size }), // 👈 send color & size
+        body: JSON.stringify({ color, size }),
       }
     ).catch((err) => {
       console.log(err);
@@ -263,7 +262,6 @@ export const dataProvider = {
       if (response.ok) {
         return { success: true, data };
       } else {
-        console.log(data.errors);
         return { success: false, data };
       }
     } catch (err: any) {
