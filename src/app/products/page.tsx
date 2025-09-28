@@ -8,7 +8,7 @@ import Filter, { ActiveInfo } from "./filter";
 export default async function Products({
   searchParams,
 }: {
-  searchParams: { page?: string; sort?: string };
+  searchParams: Promise<{ page?: string; sort?: string }>;
 }) {
   const filters = await searchParams;
   const page = parseInt((await filters.page) ?? "1");
