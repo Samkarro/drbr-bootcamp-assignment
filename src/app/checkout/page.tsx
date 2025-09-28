@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import MainHeader from "../(components)/header-main";
 import "./styles.checkout.css";
@@ -9,62 +10,109 @@ import { useRouter } from "next/navigation";
 export default function CheckoutPage() {
   const router = useRouter();
 
-  let localEmail: string | null = "";
-  useEffect(() => {
-    const storedEmail = localStorage.getItem("redseam-email");
-    if (storedEmail) {
-      setEmail(storedEmail);
-    }
-  }, []);
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    const token = localStorage.getItem("redseam-token");
-    setToken(token);
-  }, []);
-
+  // Form state
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
-
-  const [email, setEmail] = useState(localEmail);
-
+  const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [zipcode, setZipcode] = useState("");
 
-  const handlePayment = () => {
-    console.log(name, surname, email, address, zipcode, token);
-    dataProvider
-      .pay(name, surname, email, address, zipcode, token)
-      .then(() => {
-        setPaymentSuccess(true);
-      })
-      .catch((err) => console.error("Payment failed", err));
-  };
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("redseam-token");
+    setToken(storedToken);
+
+    const storedEmail = localStorage.getItem("redseam-email");
+    if (storedEmail) setEmail(storedEmail);
+  }, []);
+
+  const [nameError, setNameError] = useState(false);
+  const [surnameError, setSurnameError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const [zipcodeError, setZipcodeError] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
 
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
+  const handlePayment = () => {
+    setNameError(false);
+    setSurnameError(false);
+    setEmailError(false);
+    setAddressError(false);
+    setZipcodeError(false);
+    setPaymentError("");
+
+    dataProvider
+      .pay(name, surname, email, address, zipcode, token)
+      .then((result) => {
+        if (result.success) {
+          setPaymentSuccess(true);
+        } else {
+          const errors = result.data?.errors || {};
+
+          if (errors.name) setNameError(true);
+          if (errors.surname) setSurnameError(true);
+          if (errors.email) setEmailError(true);
+          if (errors.address) setAddressError(true);
+          if (errors.zip_code) setZipcodeError(true);
+
+          if (result.error) {
+            setPaymentError(result.error);
+          } else if (
+            errors.name ||
+            errors.surname ||
+            errors.email ||
+            errors.address ||
+            errors.zip_code
+          ) {
+            setPaymentError(
+              errors.name?.[0] ||
+                errors.surname?.[0] ||
+                errors.email?.[0] ||
+                errors.address?.[0] ||
+                errors.zip_code?.[0] ||
+                "Payment failed"
+            );
+          } else {
+            setPaymentError("Payment failed");
+          }
+        }
+      })
+      .catch(() => {
+        setPaymentError("Network error. Please try again.");
+      });
+  };
+
   return (
-    <div>
-      <MainHeader></MainHeader>
+    <div className="checkout-page-container">
+      <MainHeader />
       <main className="checkout-main">
-        <h1 style={{ margin: "60px 0px 42px 0px" }}>Checkout</h1>
+        <h1 className="checkout-page-title">Checkout</h1>
         <div className="checkout-sections-container">
           <div className="checkout-form">
             <h2 className="checkout-form-heading">Order details</h2>
+
             <div className="shorter-inputs-container">
               <input
-                className="checkout-text-input shorter"
+                className={`checkout-text-input shorter ${
+                  nameError ? "input-validation-error" : ""
+                }`}
                 placeholder="Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
               <input
-                className="checkout-text-input shorter"
+                className={`checkout-text-input shorter ${
+                  surnameError ? "input-validation-error" : ""
+                }`}
                 placeholder="Surname"
                 value={surname}
                 onChange={(e) => setSurname(e.target.value)}
               />
             </div>
+
             <div className="input-with-icon">
               <svg
                 className="email-icon"
@@ -83,7 +131,9 @@ export default function CheckoutPage() {
                 />
               </svg>
               <input
-                className="checkout-text-input"
+                className={`checkout-text-input ${
+                  emailError ? "input-validation-error" : ""
+                }`}
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -92,13 +142,17 @@ export default function CheckoutPage() {
 
             <div className="shorter-inputs-container">
               <input
-                className="checkout-text-input shorter"
+                className={`checkout-text-input shorter ${
+                  addressError ? "input-validation-error" : ""
+                }`}
                 placeholder="Address"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
               <input
-                className="checkout-text-input shorter"
+                className={`checkout-text-input shorter ${
+                  zipcodeError ? "input-validation-error" : ""
+                }`}
                 placeholder="Zipcode"
                 value={zipcode}
                 onChange={(e) => {
@@ -107,15 +161,16 @@ export default function CheckoutPage() {
                 }}
               />
             </div>
+
+            {paymentError && <p className="error-message">{paymentError}</p>}
           </div>
+
           <div className="checkout-cart-container">
-            <CheckoutCart
-              token={token}
-              handlePayment={handlePayment}
-            ></CheckoutCart>
+            <CheckoutCart token={token} handlePayment={handlePayment} />
           </div>
         </div>
       </main>
+
       {paymentSuccess && (
         <div className="overlay">
           <div className="modal">
@@ -136,7 +191,11 @@ export default function CheckoutPage() {
               </svg>
             </div>
 
-            <img className="checkmark-icon" src={"/images/check.png"}></img>
+            <img
+              className="checkmark-icon"
+              src={"/images/check.png"}
+              alt="checkmark"
+            />
             <div className="modal-text-container">
               <h1>Congrats!</h1>
               <p>Your order is placed successfully!</p>
@@ -144,11 +203,6 @@ export default function CheckoutPage() {
 
             <button
               className="cta-button"
-              style={{
-                height: "41px",
-                width: "210px",
-                fontSize: "14px",
-              }}
               onClick={() => router.push("/products")}
             >
               Continue Shopping

@@ -1,6 +1,7 @@
 "use client";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { dataProvider } from "../data-provider";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutCart({
   token,
@@ -9,6 +10,7 @@ export default function CheckoutCart({
   token: string | null;
   handlePayment: () => void;
 }) {
+  const router = useRouter();
   const [cart, setCart] = useState<any>(null);
 
   useEffect(() => {
@@ -180,6 +182,13 @@ export default function CheckoutCart({
           <p className="cart-empty-message">
             You've got nothing in your cart yet...
           </p>
+          <button
+            className="cta-button"
+            style={{ width: "214px", height: "41px", marginTop: "58px" }}
+            onClick={() => router.push("/products")}
+          >
+            Start shopping
+          </button>
         </div>
       )}
     </div>

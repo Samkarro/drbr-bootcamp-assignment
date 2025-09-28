@@ -226,25 +226,38 @@ export const dataProvider = {
     zip_code: string,
     token: string | null
   ) => {
-    const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart/checkout`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name,
-          surname,
-          email,
-          address,
-          zip_code,
-        }),
+    try {
+      if (!token) throw new Error("User not authenticated");
+
+      const response = await fetch(
+        `https://api.redseam.redberryinternship.ge/api/cart/checkout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name,
+            surname,
+            email,
+            address,
+            zip_code,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return { success: true, data };
+      } else {
+        console.log(data.errors);
+        return { success: false, data };
       }
-    ).catch((err) => {
-      console.log(err);
-    });
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
   },
 };

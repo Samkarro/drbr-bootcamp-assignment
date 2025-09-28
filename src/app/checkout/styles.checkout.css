@@ -3,7 +3,9 @@
 
   padding: 0px 100px 0px 100px;
 }
-
+.checkout-page-title {
+  margin-bottom: 42px;
+}
 .checkout-sections-container {
   display: flex;
   justify-content: space-between;
@@ -149,4 +151,28 @@
 
 .x-button-container:hover {
   cursor: pointer;
+}
+
+/* Errors */
+
+.error-message {
+  position: static;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--redseam-orange);
+}
+
+.error-message-register {
+  bottom: 24.3%;
+}
+
+.input-validation-error {
+  border: 1px solid var(--redseam-orange);
+}
+
+.error-container {
+  height: 46px;
+  display: flex;
+  width: 554px;
+  padding-left: 10px;
 }
