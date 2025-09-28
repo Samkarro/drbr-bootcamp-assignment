@@ -45,26 +45,38 @@ export default function SidebarContent({
     );
   }
 
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: number, color: string, size: string) => {
     if (!token) return;
     try {
-      await dataProvider.removeFromCart(id, token);
+      await dataProvider.removeFromCart(id, color, size, token);
 
-      setCart((prev: any) => prev.filter((item: any) => item.id !== id));
+      setCart((prev: any) =>
+        prev.filter(
+          (item: any) =>
+            !(item.id === id && item.color === color && item.size === size)
+        )
+      );
     } catch (err) {
       console.log("Failed to remove product:", err);
     }
   };
 
-  const handleUpdateQuantity = async (id: number, newQuantity: number) => {
+  const handleUpdateQuantity = async (
+    id: number,
+    newQuantity: number,
+    color: string,
+    size: string
+  ) => {
     if (!token) return;
 
     try {
-      await dataProvider.updateCart(id, newQuantity, token);
+      await dataProvider.updateCart(id, newQuantity, color, size, token);
 
       setCart((prev: any) =>
         prev.map((item: any) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
+          item.id === id && item.color === color && item.size === size
+            ? { ...item, quantity: newQuantity }
+            : item
         )
       );
     } catch (err) {
@@ -107,7 +119,12 @@ export default function SidebarContent({
                       <svg
                         onClick={() => {
                           if (item.quantity > 1) {
-                            handleUpdateQuantity(item.id, item.quantity - 1);
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity - 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`decrease-quantity-button ${
@@ -128,7 +145,12 @@ export default function SidebarContent({
                       <svg
                         onClick={() => {
                           if (item.quantity < 256) {
-                            handleUpdateQuantity(item.id, item.quantity + 1);
+                            handleUpdateQuantity(
+                              item.id,
+                              item.quantity + 1,
+                              item.color,
+                              item.size
+                            );
                           }
                         }}
                         className={`increase-quantity-button ${
@@ -148,7 +170,9 @@ export default function SidebarContent({
                     </div>
                     <p
                       className="cart-item-remover"
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() =>
+                        handleRemove(item.id, item.color, item.size)
+                      }
                     >
                       Remove
                     </p>

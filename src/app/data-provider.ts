@@ -181,9 +181,14 @@ export const dataProvider = {
     });
   },
 
-  removeFromCart: async (product: number, token: string | null) => {
+  removeFromCart: async (
+    productId: number,
+    color: string,
+    size: string,
+    token: string | null
+  ) => {
     const response = await fetch(
-      `https://api.redseam.redberryinternship.ge/api/cart/products/${product}`,
+      `https://api.redseam.redberryinternship.ge/api/cart/products/${productId}`,
       {
         method: "DELETE",
         headers: {
@@ -191,15 +196,20 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
+        body: JSON.stringify({ color, size }), // 👈 send color & size
       }
     ).catch((err) => {
       console.log(err);
     });
+
+    return response?.ok;
   },
 
   updateCart: async (
     productId: number,
     quantity: number,
+    color: string,
+    size: string,
     token: string | null
   ) => {
     const response = await fetch(
@@ -211,7 +221,7 @@ export const dataProvider = {
           Accept: "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ quantity }),
+        body: JSON.stringify({ quantity, color, size }), // 👈 send color & size
       }
     );
 
