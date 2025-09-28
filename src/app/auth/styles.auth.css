@@ -108,3 +108,15 @@
   font-size: 14px;
   color: var(--redseam-silver-blue);
 }
+
+.error-message {
+  position: absolute;
+  bottom: 43%;
+  left: 61%;
+  font-size: 12px;
+  color: var(--redseam-orange);
+}
+
+.input-validation-error {
+  border: 1px solid var(--redseam-orange);
+}

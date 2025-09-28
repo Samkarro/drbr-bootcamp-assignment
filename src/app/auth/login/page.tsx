@@ -4,12 +4,47 @@ import { dataProvider } from "@/app/data-provider";
 import { useState } from "react";
 import "../styles.auth.css";
 import AuthHeader from "../../../../components/header-auth";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
 
+  const router = useRouter();
+
+  const handleLogin = () => {
+    setEmailError(false);
+    setPasswordError(false);
+    setLoginErrorMessage("");
+
+    dataProvider.login(email, password).then((result) => {
+      if (result.success) {
+        router.push("/products");
+      } else {
+        setEmailError(true);
+        setPasswordError(true);
+
+        if (result.data.message === "Unauthenticated.") {
+          setEmailError(true);
+          setPasswordError(true);
+          setLoginErrorMessage("Incorrect email or password.");
+        } else {
+          if (result.data.errors["email"]) {
+            setEmailError(true);
+            setLoginErrorMessage(result.data.errors.email[0]);
+          }
+          if (result.data.errors["password"]) {
+            setPasswordError(true);
+            setLoginErrorMessage(result.data.errors.password[0]);
+          }
+        }
+      }
+    });
+  };
   return (
     <div className="auth-page-container">
       <AuthHeader />
@@ -27,7 +62,9 @@ export default function Login() {
           </h1>
           <input
             onChange={(e) => setEmail(e.target.value)}
-            className="auth-text-input email"
+            className={`auth-text-input email ${
+              emailError ? "input-validation-error" : ""
+            }`}
             placeholder="Email"
             required
           ></input>
@@ -62,15 +99,20 @@ export default function Login() {
             </svg>
             <input
               onChange={(e) => setPassword(e.target.value)}
-              className="auth-text-input password"
+              className={`auth-text-input password ${
+                passwordError ? "input-validation-error" : ""
+              }`}
               placeholder="Password"
               type={showPassword ? "text" : "password"}
               required
             />
           </div>
+          {loginErrorMessage && (
+            <p className="error-message">{loginErrorMessage}</p>
+          )}
           <button
             className="cta-button"
-            onClick={(e: any) => dataProvider.login(email, password)}
+            onClick={(e: any) => handleLogin()}
             style={{
               margin: "22px 0px 24px 0px",
             }}

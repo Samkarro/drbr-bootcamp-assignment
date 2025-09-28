@@ -182,13 +182,16 @@ export default function Register() {
           <button
             className="cta-button"
             onClick={() =>
-              dataProvider.register(
-                avatar,
-                email,
-                password,
-                passwordConfirmation,
-                username
-              )
+              dataProvider
+                .register(
+                  avatar,
+                  email,
+                  password,
+                  passwordConfirmation,
+                  username
+                )
+                .then()
+                .catch()
             }
             style={{ margin: "22px 0px 24px 0px" }}
           >
